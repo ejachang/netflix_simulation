@@ -29,19 +29,19 @@ for (var i = 1; i <= 5000000; i++) {
   let title = faker.random.arrayElement([
     'BURN-E',
     'Shanghai Knights',
-    'Ewoks: The Battle for Endor',
+    'The Battle for Endor',
     'Hatchet III',
-    'Just Like Me (Igualita a Mi)',
+    'Just Like Me',
     'Three on a Match',
-    'Sione\'s Wedding (Samoan Wedding)',
-    'Messenger: The Story of Joan of Arc, The',
+    'Samoan Wedding',
+    'Harry Potter',
     'Citizen Cohn',
-    'Rocks in my Pockets',
-    'The Widow From Chicago',
-    'Billy Jack Goes to Washington'
+    'Wonder Woman',
+    'Jumanji',
+    'Avengers'
   ]);
   let boolean = faker.random.boolean();
 
-  lies.write(`${i} ${fakename} ${date} ${search} ${region} ${fakeid} ${title} ${genre} ${fakeid} ${region} ${region} ${boolean} \n`);
+  lies.write(`${i}; ${date}; ${fakename}; ${genre}; ${region}; ${region}; ${boolean}; ${region}; ${search}; ${fakeid}; ${title}; ${fakeid} \n`);
 }
 lies.end();
