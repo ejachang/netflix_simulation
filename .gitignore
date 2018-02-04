@@ -5,8 +5,10 @@ config/staging.json
 config/test.json
 package-lock.json
 package.json
-lies.csv
-lies2.csv
+liesbysaved.csv
+liesbysaved2.csv
+liesbysaved3.csv
+/database/data-generator/archive
 
 # OS X
 .DS_Store

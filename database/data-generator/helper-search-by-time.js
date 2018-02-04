@@ -1,8 +1,8 @@
 const faker = require('faker');
 const fs = require('fs');
 
-let lies = fs.createWriteStream('lies2.csv');
-for (var i = 5000001; i <= 10000000; i++) {
+let lies = fs.createWriteStream('lies.csv');
+for (var i = 1; i <= 1000000; i++) {
   let fakename = faker.name.firstName();
   let fakeid = faker.random.number();
   let date = faker.date.past();
@@ -29,19 +29,19 @@ for (var i = 5000001; i <= 10000000; i++) {
   let title = faker.random.arrayElement([
     'BURN-E',
     'Shanghai Knights',
-    'The Battle for Endor',
+    'Ewoks: The Battle for Endor',
     'Hatchet III',
-    'Just Like Me',
+    'Just Like Me (Igualita a Mi)',
     'Three on a Match',
-    'Samoan Wedding',
-    'Harry Potter',
+    'Sione\'s Wedding (Samoan Wedding)',
+    'Messenger: The Story of Joan of Arc, The',
     'Citizen Cohn',
-    'Wonder Woman',
-    'Jumanji',
-    'Avengers'
+    'Rocks in my Pockets',
+    'The Widow From Chicago',
+    'Billy Jack Goes to Washington'
   ]);
   let boolean = faker.random.boolean();
 
-  lies.write(`${i}; ${date}; ${fakename}; ${genre}; ${region}; ${region}; ${boolean}; ${region}; ${search}; ${fakeid}; ${title}; ${fakeid} \n`);
+  lies.write(`${i} ${fakename} ${date} ${search} ${region} ${fakeid} ${title} ${genre} ${fakeid} ${region} ${region} ${boolean} `);
 }
 lies.end();
