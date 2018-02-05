@@ -6,10 +6,8 @@ config/test.json
 package-lock.json
 package.json
 /database/data-generator/archive
-/liesbyregion.csv
-/liesbyregion2.csv
-/liesbysaved.csv
-/liesbysaved2.csv
+/database/csv-files/
+/ref/
 
 # OS X
 .DS_Store
