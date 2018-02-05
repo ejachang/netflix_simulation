@@ -1,6 +1,6 @@
 const cassandra = require('cassandra-driver');
-// const client = new cassandra.Client({ contactPoints: ['h1', 'h2'], keyspace: 'ks1' });
- 
-// const query = 'SELECT name, email FROM users WHERE key = ?';
-// client.execute(query, [ 'someone' ])
-//   .then(result => console.log('User with email %s', result.rows[0].email));
+const client = new cassandra.Client({ contactPoints: ['10.1.1.3', '10.1.1.4', '10.1.1.5'] });
+// ensure that you start your app once your are connected to your Cassandra cluster.
+client.connect(function(err) {
+    assert.ifError(err);
+});
