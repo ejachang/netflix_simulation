@@ -9,7 +9,8 @@ const distance = cassandra.types.distance;
 //  connecting to the cluster
 const options = { 
     contactPoints: ['127.0.0.1'],
-    pooling: { coreConnectionsPerHost: 1 }
+    pooling: { coreConnectionsPerHost: 1 },
+    keyspace: 'fakecassandra'
     //  TODO: ADD POLICY
     // policies: {
         // loadBalancing: new LatencyAwarePolicy()
