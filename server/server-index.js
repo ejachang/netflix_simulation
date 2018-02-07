@@ -26,7 +26,8 @@ router.get('/getByRegion/Asia', async (ctx) => {
 
 router.get('/savedByUser',  async (ctx) => {
   try {
-    const data = await controllers
+    const data = await controllers.getVideosBySaved;
+    ctx.body = data;
   } catch (err) {
     console.log('Error handler:', err.message);
   }
@@ -34,7 +35,8 @@ router.get('/savedByUser',  async (ctx) => {
 
 router.get('/watchedByUser', async (ctx) => {
   try {
-    const data = await controllers
+    const data = await controllers.getVideosByWatched
+    ctx.body = data;
   } catch (err) {
     console.log('Error handler:', err.message);
   }
@@ -43,6 +45,7 @@ router.get('/watchedByUser', async (ctx) => {
 
 //later by genre
 //later by title?
+//by search
 
 app
   .use(router.routes())

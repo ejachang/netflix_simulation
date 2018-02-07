@@ -13,7 +13,17 @@ db.client.connect(function (err) {
 const query = 'SELECT * from videos_by_region WHERE region=? limit 3';
 const getVideoByAsia = db.client.execute(query, ['Asia'], { prepare: true })
 
-module.exports = { getVideoByAsia }
+const savedquery = 'SELECT * from saved_video_by_user limit 1';
+const getVideosBySaved = db.client.execute(savedquery) 
+
+const watchedquery = 'SELECT * from watched_video_by_user limit 1';
+const getVideosByWatched = db.client.execute(watchedquery);
+
+module.exports = { 
+  getVideoByAsia,
+  getVideosBySaved,
+  getVideosByWatched
+ }
 
 // module.exports = {
 //     getByRegionAsia: () => {
@@ -40,19 +50,3 @@ module.exports = { getVideoByAsia }
 //         console.log(result.rows[0].videotitle)  
 //     )
 // });
-
-
-// export this later
-// module.exports = {
-//   post: {
-//     getByRegion: ( region ) => {
-//       const getByRegion = {
-//         text: 'SELECT * from videos_by_region WHERE region=?',
-//       }  
-//       db.client.execute(getByRegion.text, [region])
-//         .then(result => result.rows[0]);
-//         console.log('hello')
-//         console.log(result.rows[0])
-//     }
-//   }
-// }
