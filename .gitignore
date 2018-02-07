@@ -5,9 +5,11 @@ config/staging.json
 config/test.json
 package-lock.json
 package.json
+newrelic.js
 /database/data-generator/archive
 /database/csv-files/
 /ref/
+.vscode/
 
 # OS X
 .DS_Store
