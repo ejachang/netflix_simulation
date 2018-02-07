@@ -10,27 +10,32 @@ db.client.connect(function (err) {
     assert.ifError(err);
 });
 
-const query = 'SELECT * from videos_by_region WHERE region=? limit 3';
-const getVideoByAsia = db.client.execute(query, ['Asia'], { prepare: true })
+module.exports = {
+    getByRegion: (region) => {
+      const query = 'SELECT * from videos_by_region WHERE region=? limit 3';
+      return db.client.execute(query, [region], { prepare: true });
+    },
+    getByWatched: (user) => {
+      const watchedquery = 'SELECT * from watched_video_by_user WHERE userid=?';
+      return db.client.execute(watchedquery, [user], { prepare: true });
+    },
+    getBySaved: (user) => {
+      const savedquery = 'SELECT * from saved_video_by_user WHERE userid=?';
+      return db.client.execute(savedquery, [user], { prepare: true });
+    }
+}
 
-const savedquery = 'SELECT * from saved_video_by_user limit 1';
-const getVideosBySaved = db.client.execute(savedquery) 
 
-const watchedquery = 'SELECT * from watched_video_by_user limit 1';
-const getVideosByWatched = db.client.execute(watchedquery);
 
-module.exports = { 
-  getVideoByAsia,
-  getVideosBySaved,
-  getVideosByWatched
- }
+// const watchedquery = 'SELECT * from watched_video_by_user limit 1';
+// const getVideosByWatched = db.client.execute(watchedquery);
 
-// module.exports = {
-//     getByRegionAsia: () => {
-//       const query = 'SELECT * from videos_by_region WHERE region=?';
-//       const getVideoByAsia = db.client.execute(query, ['Asia'], { prepare: true })
-//     }
-// }
+// module.exports = { 
+//   getByAsia
+// //   getVideosBySaved,
+// //   getVideosByWatched
+//  }
+
 
 // app.use(router.routes())
 
