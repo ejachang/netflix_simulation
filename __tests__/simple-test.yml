@@ -1,0 +1,9 @@
+config:
+  target: 'http://localhost:8886'
+  phases:
+    - duration: 60
+      arrivalRate: 20
+scenarios:
+  - flow:
+    - get:
+        url: "/UserHome/3/Asia"
