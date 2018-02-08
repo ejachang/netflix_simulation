@@ -20,22 +20,28 @@ router
   //  list will send info: videos to update, videos to delete, videos that are popular
   //  top 100 per region
 
-
   //need to check what region the user is from to enter in the correct region 
   .get('/getByUser/:userID/:region', async (ctx, next) => {
-    let user_entered = ctx.params.userID
-    let region_entered = ctx.params.region
+    let user_entered = ctx.params.userID;
+    let region_entered = ctx.params.region;
     try {
-      region_data = await controllers.getByRegion(region_entered);
-      watched_data = await controllers.getByWatched(user_entered);
-      saved_data = await controllers.getBySaved(user_entered);
+      let region_data = await controllers.get.ByRegion(region_entered);
+      let watched_data = await controllers.get.ByWatched(user_entered);
+      let saved_data = await controllers.get.BySaved(user_entered);
       ctx.body = [region_data.rows, watched_data.rows, saved_data.rows];
     } catch (err) {
       console.log('Error handler:', err.message);
     };
-    
   })
-  // .post( {});
+  .post('/insertUserSaved/:userID', async (ctx, next) => {
+    let user_entered = ctx.params.userID;
+    try {
+      let result = controllers.post.insertUserSaved(user_entered);
+      console.log('this is the post result test', result);
+    } catch (err) {
+      console.log('Error handler:', err.message);
+    }
+  });
   
 
   

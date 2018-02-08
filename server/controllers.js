@@ -11,18 +11,30 @@ db.client.connect(function (err) {
 });
 
 module.exports = {
-    getByRegion: (region) => {
+  get: {
+    ByRegion: (region) => {
       const query = 'SELECT * from videos_by_region WHERE region=? limit 3';
       return db.client.execute(query, [region], { prepare: true });
     },
-    getByWatched: (user) => {
-      const watchedquery = 'SELECT * from watched_video_by_user WHERE userid=?';
-      return db.client.execute(watchedquery, [user], { prepare: true });
+    ByWatched: (user) => {
+      const watched_query = 'SELECT * from watched_video_by_user WHERE userid=?';
+      return db.client.execute(watched_query, [user], { prepare: true });
     },
-    getBySaved: (user) => {
-      const savedquery = 'SELECT * from saved_video_by_user WHERE userid=?';
-      return db.client.execute(savedquery, [user], { prepare: true });
-    }
+    BySaved: (user) => {
+      const saved_query = 'SELECT * from saved_video_by_user WHERE userid=?';
+      return db.client.execute(saved_query, [user], { prepare: true });
+    },
+  },
+
+  
+  post: {
+    insertUserSaved: (user) => {
+      const insert_saved_query = 'INSERT INTO saved_video_by_user (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?)';
+      const params =[10000001, 'Mean Girls', 'Black Panther', 'Mulan'];
+      db.client.execute(insert_saved_query, params, { prepare: true });
+      return 'success';
+    },
+  }
 }
 
 
