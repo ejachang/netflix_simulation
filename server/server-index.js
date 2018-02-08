@@ -9,6 +9,11 @@ const controllers = require('./controllers');
 const Router = require('koa-router')
 const router = new Router()
 
+
+// [ {region: 'Antartica'}
+  // {videoSaved:[1, 2, 3]},
+  // {videoWatched:[1, 2, 3]}
+
 router
   .all('/', async (ctx) => {
     ctx.body = "halp"
@@ -17,7 +22,7 @@ router
   //  top 100 per region
 
   //need to check what region the user is from to enter in the correct region 
-  .get('/UserHome/:userID/:region', controllers.get.userHome)
+  .get('/UserHome/:userID/', controllers.get.userHome)
   .post('/UserHome/:userID/:region', controllers.get.userHome)
 
   //get searched videos
