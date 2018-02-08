@@ -2,7 +2,6 @@ const newrelic = require('newrelic');
 const Koa = require('koa');
 const app = new Koa();
 const controllers = require('./controllers');
-// const db = require('../database/database-index.js');
 
 //  use for routes module later
 //  const routes = require('../server/routes.js')
@@ -10,9 +9,6 @@ const controllers = require('./controllers');
 const Router = require('koa-router')
 const router = new Router()
 
-//to get by region
-// router
-//   .get('/getByRegion/:region', controllers.getByRegion);
 router
   .all('/', async (ctx) => {
     ctx.body = "halp"
@@ -21,53 +17,14 @@ router
   //  top 100 per region
 
   //need to check what region the user is from to enter in the correct region 
-  .get('/getByUser/:userID/:region', async (ctx, next) => {
-    let user_entered = ctx.params.userID;
-    let region_entered = ctx.params.region;
-    try {
-      let region_data = await controllers.get.ByRegion(region_entered);
-      let watched_data = await controllers.get.ByWatched(user_entered);
-      let saved_data = await controllers.get.BySaved(user_entered);
-      ctx.body = [region_data.rows, watched_data.rows, saved_data.rows];
-    } catch (err) {
-      console.log('Error handler:', err.message);
-    };
-  })
-  .post('/insertUserSaved/:userID', async (ctx, next) => {
-    let user_entered = ctx.params.userID;
-    try {
-      let result = controllers.post.insertUserSaved(user_entered);
-      console.log('this is the post result test', result);
-    } catch (err) {
-      console.log('Error handler:', err.message);
-    }
-  });
-  
+  .get('/getByUser/:userID/:region', controllers.get.userHome)
+  .post('/insertUserSaved/:userID', controllers.post.insertUserSaved)
+  .post('/insertUserWatched/:userID', controllers.post.insertUserWatched)
 
-  
-
-// router.get('/savedByUser',  async (ctx) => {
-//   try {
-//     const data = await controllers.getVideosBySaved;
-//     ctx.body = data;
-//   } catch (err) {
-//     console.log('Error handler:', err.message);
-//   }
-// })
-
-// router.get('/watchedByUser', async (ctx) => {
-//   try {
-//     const data = await controllers.getVideosByWatched
-//     ctx.body = data;
-//   } catch (err) {
-//     console.log('Error handler:', err.message);
-//   }
-// })
-
-
-//later by genre
-//later by title?
-//by search
+  // .get('/test/:region', controllers.test.getByTest)
+  //later by genre
+  //later by title?
+  //by search
 
 app
   .use(router.routes())
