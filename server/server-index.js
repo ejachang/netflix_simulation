@@ -18,12 +18,12 @@ router
 
   //need to check what region the user is from to enter in the correct region 
   .get('/UserHome/:userID/:region', controllers.get.userHome)
-  .post('/insertUserSaved/:userID', controllers.post.insertUserSaved)
-  .post('/insertUserWatched/:userID', controllers.post.insertUserWatched)
-  .post('/updateUserSaved/:userID', controllers.post.updateUserSaved)
+  .post('/UserHome/:userID/:region', controllers.get.userHome)
+
   //get searched videos
   // .get('/searchVideo/:search', controllers.get.searchVideo)
-  
+  // .post('/updateUserSaved/:userID', controllers.post.updateUserSaved)
+
   //post searched videos information
   //post videos to delete
   //post videos that are popular = top 100 per region
@@ -39,3 +39,8 @@ app
   .use(router.allowedMethods());
 
 app.listen(8886);
+//eventually have this in the cache so that it saves the lists of 
+  //what the user has saved and watched
+  // .post('/insertUserSaved/:userID', controllers.post.insertUserSaved)
+  // .post('/insertUserWatched/:userID', controllers.post.insertUserWatched)
+  

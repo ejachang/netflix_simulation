@@ -1,9 +1,13 @@
 config:
   target: 'http://localhost:8886'
+  http:
+    pool: 10
   phases:
     - duration: 60
       arrivalRate: 20
 scenarios:
   - flow:
-    - get:
-        url: "/UserHome/3/Asia"
+      - loop: 
+          - get:
+              url: "/userHome/3/Asia"
+        count: 10

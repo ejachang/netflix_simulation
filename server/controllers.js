@@ -22,53 +22,38 @@ module.exports = {
     },
   },
   post: {
-    insertUserSaved: async (ctx, next) => {
-      let userID = ctx.params.userID;
-      let user_entered = {
-        userID: userID,
-        //update the stuff below later
-        videotitle1: 'Lord of the Rings',
-        videotitle2: 'Like Mike',
-        videotitle3: 'The Big Sick'
-      };
-      try {
-        let result = models.post.insertUserSaved(user_entered);
-        console.log('this is the post result test', result);
-      } catch (err) {
-        console.log('Error handler:', err.message);
-      }
-    },
-    insertUserWatched: async (ctx, next) => {
-      let userID = ctx.params.userID;
-      let update = {
-        userID: userID,
-        //update the stuff below later
-        videotitle1: 'Ali Wong: Baby Cobra',
-        videotitle2: 'Toy Story',
-        videotitle3: 'Up'
-      };
-      try {
-        let result = models.post.insertUserWatched(update);
-        console.log('this is the post result test', result);
-      } catch (err) {
-        console.log('Error handler:', err.message);
-      }
-    },
-    updateUserSaved: async (ctx, next) => {
-      let userID = ctx.params.userID;
-      let update = {
-        userID: userID,
-        //update the stuff below later
-        videotitle1: 'Ali Wong: Baby Cobra',
-        videotitle2: 'Toy Story',
-        videotitle3: 'Up'
-      };
-      try {
-        let result = models.post.updateUserSaved(update)
-      } catch (err) {
-        console.log('Error handler:', err.message);
-      }
-    }
+    placeholder: 'placeholder'
+    // insertUserSaved: async (ctx, next) => {
+    //   let userID = ctx.params.userID;
+    //   let user_entered = {
+    //     userID: userID,
+    //     //update the stuff below later
+    //     videotitle1: 'Lord of the Rings',
+    //     videotitle2: 'Like Mike',
+    //     videotitle3: 'The Big Sick'
+    //   };
+    //   try {
+    //     let result = models.post.insertUserSaved(user_entered);
+    //     console.log('this is the post result test', result);
+    //   } catch (err) {
+    //     console.log('Error handler:', err.message);
+    //   }
+    // },
+    // updateUserSaved: async (ctx, next) => {
+    //   let userID = ctx.params.userID;
+    //   let update = {
+    //     userID: userID,
+    //     //update the stuff below later
+    //     videotitle1: 'Ali Wong: Baby Cobra',
+    //     videotitle2: 'Toy Story',
+    //     videotitle3: 'Up'
+    //   };
+    //   try {
+    //     let result = models.post.updateUserSaved(update)
+    //   } catch (err) {
+    //     console.log('Error handler:', err.message);
+    //   }
+    // }
   },
 }
 
