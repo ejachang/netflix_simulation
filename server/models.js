@@ -33,5 +33,14 @@ module.exports = {
       db.client.execute(insert_watched, params, { prepare: true });
       return 'something happened';
     },
-  }
+    updateUserSaved: (saved) => {
+      const update_watched = 'UPDATE saved_video_by_user SET videotitle1=?, videotitle2=?, videotitle3=? WHERE userid=?';
+      const params = [saved.videotitle1, saved.videotitle2, saved.videotitle3, saved.userID];
+      db.client.execute(update_watched, params, { prepare: true });
+      console.log('something happened')
+    }
+  },
+  delete: {
+    placeholder: 'placeholder'
+  },
 }

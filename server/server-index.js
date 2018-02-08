@@ -17,11 +17,11 @@ router
   //  top 100 per region
 
   //need to check what region the user is from to enter in the correct region 
-  .get('/getByUser/:userID/:region', controllers.get.userHome)
+  .get('/UserHome/:userID/:region', controllers.get.userHome)
   .post('/insertUserSaved/:userID', controllers.post.insertUserSaved)
   .post('/insertUserWatched/:userID', controllers.post.insertUserWatched)
+  .post('/updateUserSaved/:userID', controllers.post.updateUserSaved)
 
-  // .get('/test/:region', controllers.test.getByTest)
   //later by genre
   //later by title?
   //by search
