@@ -21,27 +21,19 @@ module.exports = {
     },
   },
   post: {
-    insertUserSaved: (saved) => {
-      const insert_saved = 'INSERT INTO saved_video_by_user (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?)';
-      const params =[saved.userID, saved.videotitle1, saved.videotitle2, saved.videotitle3];
-      db.client.execute(insert_saved, params, { prepare: true });
-      return 'something happened';
-    },
-    insertUserWatched: (watched) => {
-      const insert_watched = 'INSERT INTO saved_video_by_user (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?)';
-      const params =[watched.userID, watched.videotitle1, watched.videotitle2, watched.videotitle3];
-      db.client.execute(insert_watched, params, { prepare: true });
-    },
-    updateUserSaved: (saved) => {
-      const update_saved = 'UPDATE saved_video_by_user SET videotitle1=?, videotitle2=?, videotitle3=? WHERE userid=?';
-      const params = [saved.videotitle1, saved.videotitle2, saved.videotitle3, saved.userID];
-      db.client.execute(update_saved, params, { prepare: true });
-    },
-    updateUserWatched: (watched) => {
-      const update_watched = 'UPDATE watched_video_by_user SET videotitle1=?, videotitle2=?, videotitle3=? WHERE userid=?';
-      const params = [watched.videotitle1, watched.videotitle2, watched.videotitle3, watched.userID];
-      db.client.execute(update_watched, params, { prepare: true });
-    }
+    placeholder: 'placeholder'    
+    // insertUserSaved: (saved) => {
+    //   const insert_saved = 'INSERT INTO saved_video_by_user (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?)';
+    //   const params =[saved.userID, saved.videotitle1, saved.videotitle2, saved.videotitle3];
+    //   db.client.execute(insert_saved, params, { prepare: true });
+    //   return 'something happened';
+    // },
+    // insertUserWatched: (watched) => {
+    //   const insert_watched = 'INSERT INTO saved_video_by_user (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?)';
+    //   const params =[watched.userID, watched.videotitle1, watched.videotitle2, watched.videotitle3];
+    //   db.client.execute(insert_watched, params, { prepare: true });
+    // },
+
   },
   delete: {
     placeholder: 'placeholder'
