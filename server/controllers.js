@@ -40,7 +40,7 @@ module.exports = {
     },
     insertUserWatched: async (ctx, next) => {
       let userID = ctx.params.userID;
-      let user_entered = {
+      let update = {
         userID: userID,
         //update the stuff below later
         videotitle1: 'Ali Wong: Baby Cobra',
@@ -48,7 +48,7 @@ module.exports = {
         videotitle3: 'Up'
       };
       try {
-        let result = models.post.insertUserWatched(user_entered);
+        let result = models.post.insertUserWatched(update);
         console.log('this is the post result test', result);
       } catch (err) {
         console.log('Error handler:', err.message);
@@ -58,6 +58,7 @@ module.exports = {
       let userID = ctx.params.userID;
       let update = {
         userID: userID,
+        //update the stuff below later
         videotitle1: 'Ali Wong: Baby Cobra',
         videotitle2: 'Toy Story',
         videotitle3: 'Up'

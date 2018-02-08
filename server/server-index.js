@@ -21,6 +21,14 @@ router
   .post('/insertUserSaved/:userID', controllers.post.insertUserSaved)
   .post('/insertUserWatched/:userID', controllers.post.insertUserWatched)
   .post('/updateUserSaved/:userID', controllers.post.updateUserSaved)
+  //get searched videos
+  // .get('/searchVideo/:search', controllers.get.searchVideo)
+  
+  //post searched videos information
+  //post videos to delete
+  //post videos that are popular = top 100 per region
+  //delete videos to delete
+  
 
   //later by genre
   //later by title?
