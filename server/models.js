@@ -11,16 +11,29 @@ module.exports = {
       const query = 'SELECT * from videos_by_region WHERE region=? limit 3';
       return db.client.execute(query, [region], { prepare: true });
     },
-    ByWatched: (user) => {
-      const watched_query = 'SELECT * from watched_video_by_user WHERE userid=?';
-      return db.client.execute(watched_query, [user], { prepare: true });
-    },
-    BySaved: (user) => {
-      const saved_query = 'SELECT * from saved_video_by_user WHERE userid=?';
-      return db.client.execute(saved_query, [user], { prepare: true });
+    videoList: (list) => {
+      const query = 'SELECT * from video_titles_by_id where id=? and id=? and id=?';
+      const params = [list[0], list[1], list[2]];
+      return db.client.execute(query, params, { prepare: true });
     },
   },
   post: {
+    ByRegion: (region) => {
+      // const query = 'SELECT * from videos_by_region WHERE region=? limit 3';
+      // return db.client.execute(query, [region], { prepare: true });
+    },
+    updateUserWatched: (list) => {
+      
+    },
+    updateUserSaved: (list) => {
+
+    },
+    insertUserWatched: (list) => {
+
+    },
+    insertUserSaved: (list) => {
+
+    },
     placeholder: 'placeholder'    
     // insertUserSaved: (saved) => {
     //   const insert_saved = 'INSERT INTO saved_video_by_user (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?)';

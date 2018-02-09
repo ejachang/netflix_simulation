@@ -6,24 +6,41 @@ db.client.connect(function (err) {
     assert.ifError(err);
 });
 
+// app.use(bodyParser());
+
 module.exports = {
   //need to check what region the user is from to enter in the correct region 
   get: {
-    userHome: async (ctx, next) => {
-      let user_entered = ctx.params.userID;
-      let region_entered = ctx.params.region;
+    //to return to the client
+    userHome: async (ctx) => {
+      console.log(ctx)
       try {
-        let region_data = await models.get.ByRegion(region_entered);
-        let watched_data = await models.get.ByWatched(user_entered);
-        let saved_data = await models.get.BySaved(user_entered);
+        let user = ctx.userid;
+        let region_data = await models.get.ByRegion(userid);
+        let watched_data = await models.get.videoList(info.videowatched);
+        let saved_data = await models.get.videoList(info.videosaved);
         ctx.body = [region_data.rows, watched_data.rows, saved_data.rows];
+        ctx.response.status = 418
       } catch (err) {
         console.log('Error handler:', err.message);
       };
     },
   },
   post: {
-    placeholder: 'placeholder'
+    //to get the video to compile lists and post into the user list tables
+    storeUser: async (ctx, next) => {
+      try {
+        let info = ctx.request.body;
+        let region_videos = await models.get.ByRegion(info.region);
+        let watch_videos = await models.get.videoList(info.videowatched);
+        let save_videos = await models.get.videoList(info.videosaved);
+        
+        ctx.response.status = 418
+      } catch (err) {
+        console.log('Error handler:', err.message);
+      };
+    },
+  placeholder: 'placeholder'
     // insertUserSaved: async (ctx, next) => {
     //   let userID = ctx.params.userID;
     //   let user_entered = {
