@@ -12,7 +12,7 @@ module.exports = {
       return db.client.execute(query, [region], { prepare: true });
     },
     videoList: (list) => {
-      const query = 'SELECT * from video_titles_by_id where id=? and id=? and id=?';
+      const query = 'SELECT * from video_titles_by_id WHERE videoid IN (?, ?, ?)';
       const params = [list[0], list[1], list[2]];
       return db.client.execute(query, params, { prepare: true });
     },
@@ -41,9 +41,9 @@ module.exports = {
     insertBySaved: (userid, saved) => {
       const insert_saved = 'INSERT INTO saved_video_by_user  (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?) IF NOT EXISTS';
       const params =[userid, saved[0], saved[1], saved[2]];
-      db.client.execute(saved_watched, params, { prepare: true });      
+      db.client.execute(insert_saved, params, { prepare: true });      
     },
-    updateByWatched: (userid, saved) => {
+    updateBySaved: (userid, saved) => {
       const update_saved = 'UPDATE saved_video_by_user SET videotitle1=?, videotitle2=?, videotitle3=? WHERE userid=? IF EXISTS';
       const params2 = [saved[0], saved[1], saved[2], userid];
       db.client.execute(update_saved, params2, { prepare: true });
