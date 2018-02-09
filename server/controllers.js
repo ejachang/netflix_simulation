@@ -32,9 +32,14 @@ module.exports = {
       try {
         let info = ctx.request.body;
         let region_videos = await models.get.ByRegion(info.region);
-        let watch_videos = await models.get.videoList(info.videowatched);
-        let save_videos = await models.get.videoList(info.videosaved);
-        
+        let watched_videos = await models.get.videoList(info.videowatched);
+        let saved_videos = await models.get.videoList(info.videosaved);
+        models.post.insertByRegion(info.userid, region_videos)
+        models.post.updateByRegion(info.userid, region_videos)
+        models.post.insertByWatched(info.userid, watched_videos)
+        models.post.updateByWatched(info.userid, watched_videos)
+        models.post.insertBySaved(info.userid, saved_videos)
+        models.post.updateBySaved(info.userid, saved_videos)
         ctx.response.status = 418
       } catch (err) {
         console.log('Error handler:', err.message);

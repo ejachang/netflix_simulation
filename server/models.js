@@ -18,29 +18,36 @@ module.exports = {
     },
   },
   post: {
-    ByRegion: (region) => {
-      // const query = 'SELECT * from videos_by_region WHERE region=? limit 3';
-      // return db.client.execute(query, [region], { prepare: true });
+    insertByRegion: (userid, region) => {
+      const insert_region = 'INSERT INTO region_videos_by_user  (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?) IF NOT EXISTS';
+      const params =[userid, region[0], region[1], region[2]];
+      db.client.execute(insert_region, params, { prepare: true });      
     },
-    updateUserWatched: (list) => {
-      
+    updateByRegion: (userid, region) => {
+      const update_region = 'UPDATE region_videos_by_user SET videotitle1=?, videotitle2=?, videotitle3=? WHERE userid=? IF EXISTS';
+      const params2 = [region[0], region[1], region[2], userid];
+      db.client.execute(update_region, params2, { prepare: true });
     },
-    updateUserSaved: (list) => {
-
+    insertByWatched: (userid, watched) => {
+      const insert_watched = 'INSERT INTO watched_video_by_user  (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?) IF NOT EXISTS';
+      const params =[userid, watched[0], watched[1], watched[2]];
+      db.client.execute(insert_watched, params, { prepare: true });      
     },
-    insertUserWatched: (list) => {
-
+    updateByWatched: (userid, watched) => {
+      const update_watched = 'UPDATE watched_video_by_user SET videotitle1=?, videotitle2=?, videotitle3=? WHERE userid=? IF EXISTS';
+      const params2 = [watched[0], watched[1], watched[2], userid];
+      db.client.execute(update_watched, params2, { prepare: true });
     },
-    insertUserSaved: (list) => {
-
+    insertBySaved: (userid, saved) => {
+      const insert_saved = 'INSERT INTO saved_video_by_user  (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?) IF NOT EXISTS';
+      const params =[userid, saved[0], saved[1], saved[2]];
+      db.client.execute(saved_watched, params, { prepare: true });      
     },
-    placeholder: 'placeholder'    
-    // insertUserSaved: (saved) => {
-    //   const insert_saved = 'INSERT INTO saved_video_by_user (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?)';
-    //   const params =[saved.userID, saved.videotitle1, saved.videotitle2, saved.videotitle3];
-    //   db.client.execute(insert_saved, params, { prepare: true });
-    //   return 'something happened';
-    // },
+    updateByWatched: (userid, saved) => {
+      const update_saved = 'UPDATE saved_video_by_user SET videotitle1=?, videotitle2=?, videotitle3=? WHERE userid=? IF EXISTS';
+      const params2 = [saved[0], saved[1], saved[2], userid];
+      db.client.execute(update_saved, params2, { prepare: true });
+    },
   },
   delete: {
     placeholder: 'placeholder'
