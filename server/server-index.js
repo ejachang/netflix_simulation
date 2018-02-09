@@ -21,13 +21,28 @@ router
   //  list will send info: videos to update, videos to delete, videos that are popular
   //  top 100 per region
 
-  //need to check what region the user is from to enter in the correct region 
   .get('/UserHome/:userID/', controllers.get.userHome)
-  .post('/UserHome/:userID/:region', controllers.get.userHome)
+  //post at the certain user's url the videos
+  // .post('/userHome/:userID/', controllers.get.userHome)
 
-  //get searched videos
-  // .get('/searchVideo/:search', controllers.get.searchVideo)
-  // .post('/updateUserSaved/:userID', controllers.post.updateUserSaved)
+  //get and return searched videos in the dbase
+  // .get('/browse/:userid/:region/:search', controllers.get.searchVideoTerm)
+  // .post('/browse/:userid/:region/:search', controllers.post.searchVideoTerm)
+
+  // .get('/browse/:userid/:region/:genre', controllers.get.searchVideoGenre)
+  // .post('/browse/:userid/:region/:genre', controllers.post.searchVideoGenre)
+  // .get('/browse/:userid/:region/:original', controllers.get.searchVideoOriginal)
+  // .post('/browse/:userid/:region/:original', controllers.post.searchVideoOriginal)
+  // .get('/browse/:userid/:region', controllers.get.searchVideoRegion)
+  // .post('/browse/:userid/:region', controllers.post.searchVideoRegion)
+
+  //request and save searched videos to VideoLists
+  // .get('requestVideoLibrary/:search', controllers.get.requestVideo)
+  // .put('/addVideoLibrary/:region',controllers.put.requestVideo)
+
+  //collect and send searched info to Analytics
+  // .post('sendSearchInfo', controllers.post.searchedVideos)
+
 
   //post searched videos information
   //post videos to delete

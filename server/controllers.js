@@ -7,6 +7,7 @@ db.client.connect(function (err) {
 });
 
 module.exports = {
+  //need to check what region the user is from to enter in the correct region 
   get: {
     userHome: async (ctx, next) => {
       let user_entered = ctx.params.userID;

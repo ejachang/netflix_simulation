@@ -28,12 +28,6 @@ module.exports = {
     //   db.client.execute(insert_saved, params, { prepare: true });
     //   return 'something happened';
     // },
-    // insertUserWatched: (watched) => {
-    //   const insert_watched = 'INSERT INTO saved_video_by_user (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?)';
-    //   const params =[watched.userID, watched.videotitle1, watched.videotitle2, watched.videotitle3];
-    //   db.client.execute(insert_watched, params, { prepare: true });
-    // },
-
   },
   delete: {
     placeholder: 'placeholder'
