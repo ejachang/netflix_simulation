@@ -29,13 +29,13 @@ module.exports = {
       //search - what the user searched for
       //also post to the dbase
       try {
-        let date = helpers.getDate()
+        let time = JSON.stringify(helpers.getDate()).toString();
         let userid = ctx.params.userid
         let region = ctx.params.region;
         let search = ctx.params.search;
         let found = await models.get.searchVideo(region, search);
         ctx.body = found.rows[0].videotitle
-        models.post.searchInfo();        
+        models.post.searchInfo(time, userid, region, search); 
       } catch (err) {
         console.log('searchVideo error handler:', err.message);
       };
@@ -73,7 +73,7 @@ module.exports = {
         console.log('storeUser error handler:', err.message);
       };
     },
-  placeholder: 'placeholder'
+    placeholder: 'placeholder'
   },
 }
 

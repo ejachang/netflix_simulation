@@ -44,7 +44,7 @@ module.exports = {
       db.client.execute(update_watched, params2, { prepare: true });
     },
     insertBySaved: (userid, saved) => {
-      const insert_saved = 'INSERT INTO saved_video_by_user  (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?) IF NOT EXISTS';
+      const insert_saved = 'INSERT INTO saved_video_by_user (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?) IF NOT EXISTS';
       const params =[userid, saved[0], saved[1], saved[2]];
       db.client.execute(insert_saved, params, { prepare: true });      
     },
@@ -53,6 +53,11 @@ module.exports = {
       const params2 = [saved[0], saved[1], saved[2], userid];
       db.client.execute(update_saved, params2, { prepare: true });
     },
+    searchInfo: (time, userid, region, search) => {
+      const post_search = 'INSERT INTO search_by_time (time, userid, region, search) VALUES (?, ?, ?, ?)';
+      const params = [time, userid, region, search];
+      db.client.execute(post_search, params, { prepare: true });
+    }
   },
   delete: {
     placeholder: 'placeholder'
