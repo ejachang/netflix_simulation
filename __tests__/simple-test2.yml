@@ -1,0 +1,20 @@
+config:
+  target: 'http://localhost:8886'
+  phases:
+    - duration: 60
+      arrivalRate: 10
+  processor: "./my-functions.js"
+
+scenarios:
+  - name: "post a user"
+    flow:
+      - function: "generateRandomData"
+      - post:
+          url: "/api/login"
+          # beforeRequest: "convertIDToInt"
+          json:
+            userid: "{{ userid }}"
+            videowatched: "{{ videowatched }}"
+            videosaved: "{{ videosaved }}"
+            region: "{{ region }}" 
+      # - log: "Sent a request to /api/login with {{ userid }}, {{ videowatched }}, {{ videosaved }}, {{ region }}"

@@ -31,28 +31,36 @@ module.exports = {
     storeUser: async (ctx, next) => {
       try {
         let info = ctx.request.body;
-        
+        userid = JSON.parse(info.userid)
         let region_videos = await models.get.ByRegion(info.region);
         let region = [];
         for (var i = 0; i < region_videos.rows.length; i++) {
           region.push(region_videos.rows[i].videotitle)
         }
-        let watched_videos = await models.get.videoList(info.videowatched);
+        let watched_videos = await models.get.videoList(JSON.parse(info.videowatched));
         let watched = [];
         for (var i = 0; i < watched_videos.rows.length; i++) {
           watched.push(watched_videos.rows[i].videotitle)
         }
-        let saved_videos = await models.get.videoList(info.videosaved);
+        let saved_videos = await models.get.videoList(JSON.parse(info.videosaved));
         let saved = [];
         for (var i = 0; i < saved_videos.rows.length; i++) {
           saved.push(saved_videos.rows[i].videotitle)
         }
-        models.post.insertByRegion(info.userid, region)
-        models.post.updateByRegion(info.userid, region)
-        models.post.insertByWatched(info.userid, watched)
-        models.post.updateByWatched(info.userid, watched)
-        models.post.insertBySaved(info.userid, saved)
-        models.post.updateBySaved(info.userid, saved)
+        //uncomment for non-test
+        // models.post.insertByRegion(userid, region)
+        // models.post.updateByRegion(userid, region)
+        // models.post.insertByWatched(userid, watched)
+        // models.post.updateByWatched(userid, watched)
+        // models.post.insertBySaved(userid, saved)
+        // models.post.updateBySaved(userid, saved)
+
+        // models.post.insertByRegion(info.userid, region)
+        // models.post.updateByRegion(info.userid, region)
+        // models.post.insertByWatched(info.userid, watched)
+        // models.post.updateByWatched(info.userid, watched)
+        // models.post.insertBySaved(info.userid, saved)
+        // models.post.updateBySaved(info.userid, saved)
         ctx.response.status = 418
       } catch (err) {
         console.log('storeUser error handler:', err.message);

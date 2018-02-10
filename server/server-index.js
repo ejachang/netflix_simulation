@@ -16,14 +16,13 @@ router
   //  top 100 per region
 
   //if the user exists, update their videos list. If it doesn't, find based on id and insert
-  
+
   .post('/api/login', controllers.post.storeUser)
   
   // .post('http://localhost:8080/api/login', controllers.post.storeUser)
 
   //based on userid, get watch/saved list; based on region, get the userid
   .get('/userHome/:userid/', controllers.get.userHome)
-
   //get and return searched videos in the dbase
   // .get('/browse/:userid/:region/:search', controllers.get.searchVideoTerm)
   // .get('/browse/:userid/:region/:genre', controllers.get.searchVideoGenre)
