@@ -13,12 +13,12 @@ module.exports = {
   get: {
     userHome: async (ctx) => {
       try {
+        ctx.response.status = 418
         let user = ctx.userid;
         let region_data = await models.get.ByRegion(userid);
         let watched_data = await models.get.videoList(info.videowatched);
         let saved_data = await models.get.videoList(info.videosaved);
         ctx.body = [region_data.rows, watched_data.rows, saved_data.rows];
-        ctx.response.status = 418
       } catch (err) {
         console.log('userHome error handler:', err.message);
       };
@@ -35,6 +35,7 @@ module.exports = {
         let search = ctx.params.search;
         let found = await models.get.searchVideo(region, search);
         ctx.body = found.rows[0].videotitle
+        //add to queue 
         //add background worker that sends posts to search records tables
         // models.post.searchInfo(time, userid, region, search); 
       } catch (err) {
@@ -69,7 +70,7 @@ module.exports = {
         models.post.updateByWatched(info.userid, watched)
         models.post.insertBySaved(info.userid, saved)
         models.post.updateBySaved(info.userid, saved)
-        ctx.response.status = 418
+        ctx.response.status = 200
       } catch (err) {
         console.log('storeUser error handler:', err.message);
       };
