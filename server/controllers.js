@@ -35,7 +35,8 @@ module.exports = {
         let search = ctx.params.search;
         let found = await models.get.searchVideo(region, search);
         ctx.body = found.rows[0].videotitle
-        models.post.searchInfo(time, userid, region, search); 
+        //add background worker that sends posts to search records tables
+        // models.post.searchInfo(time, userid, region, search); 
       } catch (err) {
         console.log('searchVideo error handler:', err.message);
       };
