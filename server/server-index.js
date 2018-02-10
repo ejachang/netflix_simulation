@@ -36,6 +36,8 @@ router
   // .post('/addVideoLibrary/:region',controllers.put.requestVideo)
 
   //collect and send searched info to Analytics
+  //will continuously push the searches into an object; send to the analytics every
+  //3 minutes
   // .post('/sendSearchInfo', controllers.post.searchedVideos)
 
 

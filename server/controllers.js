@@ -1,4 +1,5 @@
 const db = require('../database/database-index.js');
+const helpers = require('./helpers.js');
 const assert = require('assert');
 const models = require('./models.js');
 
@@ -23,8 +24,18 @@ module.exports = {
       };
     },
     searchVideo: async (ctx) => {
+      //userid - to post into the search table
+      //region - to find available video in the region table
+      //search - what the user searched for
+      //also post to the dbase
       try {
-
+        let date = helpers.getDate()
+        let userid = ctx.params.userid
+        let region = ctx.params.region;
+        let search = ctx.params.search;
+        let found = await models.get.searchVideo(region, search);
+        ctx.body = found.rows[0].videotitle
+        models.post.searchInfo();        
       } catch (err) {
         console.log('searchVideo error handler:', err.message);
       };

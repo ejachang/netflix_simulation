@@ -1,9 +1,10 @@
 const faker = require('faker');
+const moment = require('moment');
 const fs = require('fs');
 
 let lies = fs.createWriteStream('videosbysearch.csv');
-for (var i = 1; i <= 5000000; i++) {
-  let date = faker.date.past();
+for (var i = 1; i <= 1000000; i++) {
+  let timestamp = moment().format();
   let titlelist = [
     'Ewoks: The Battle for Endor',
     'Hatchet III',
@@ -35,6 +36,6 @@ for (var i = 1; i <= 5000000; i++) {
     'Australia',
     'South America']);
   let videotitle = faker.random.arrayElement(titlelist);
-  lies.write(`${date}; ${i}; ${videotitle};${region}\n`);
+  lies.write(`${timestamp}; ${region}; ${videotitle}; ${i}\n`);
 }
 lies.end();
