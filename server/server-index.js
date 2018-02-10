@@ -12,25 +12,26 @@ router
   .all('/', async (ctx) => {
     ctx.body = "halp"
   })
+
   //  list will send info: videos to update, videos to delete, videos that are popular
   //  top 100 per region
 
   //if the user exists, update their videos list. If it doesn't, find based on id and insert
 
   .post('/api/login', controllers.post.storeUser)
-  
   // .post('http://localhost:8080/api/login', controllers.post.storeUser)
 
   //based on userid, get watch/saved list; based on region, get the userid
   .get('/userHome/:userid/', controllers.get.userHome)
   //get and return searched videos in the dbase
-  // .get('/browse/:userid/:region/:search', controllers.get.searchVideoTerm)
+  .get('/browse/:userid/:region/:search', controllers.get.searchVideo)
+  //eventual gets
   // .get('/browse/:userid/:region/:genre', controllers.get.searchVideoGenre)
   // .get('/browse/:userid/:region/:original', controllers.get.searchVideoOriginal)
   // .get('/browse/:userid/:region', controllers.get.searchVideoRegion)
 
   //request and save searched videos to VideoLists
-  // .get('requestVideoLibrary/:search', controllers.get.requestVideo)
+  // .get('requestVideoLibrary/:region/:search', controllers.get.requestVideo)
   
   // .post('/addVideoLibrary/:region',controllers.put.requestVideo)
 

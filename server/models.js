@@ -16,6 +16,11 @@ module.exports = {
       const params = [list[0], list[1], list[2]];
       return db.client.execute(query, params, { prepare: true });
     },
+    searchVideo: (video) => {
+      // const query = 'SELECT * from video_titles_by_id WHERE videoid IN (?, ?, ?)';
+      // const params = [list[0], list[1], list[2]];
+      // return db.client.execute(query, params, { prepare: true });
+    }
   },
   post: {
     insertByRegion: (userid, region) => {
