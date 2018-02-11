@@ -8,8 +8,6 @@ const router = new Router()
 
 app.use(bodyParser())
 
-
-
 router
   .all('/', async (ctx) => {
     ctx.body = "halp"

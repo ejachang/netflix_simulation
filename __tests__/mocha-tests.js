@@ -21,3 +21,16 @@ it('About page content', function(done) {
       done();
   });
 });
+
+xit('Should send a get request to Videos if search fails'), function(done) {
+  request('http://localhost:8886//browse/2/asia/1000013BURN', function(error, response, body) {
+    expect(response)
+  })
+};
+
+xit('Should return not found page if search fails'), function(done) {
+  request('http://localhost:8886//browse/2/asia/1000013BURN', function(error, response, body) {
+    expect(response)
+  })
+};
+

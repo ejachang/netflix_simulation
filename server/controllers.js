@@ -2,13 +2,12 @@ const db = require('../database/database-index.js');
 const helpers = require('./helpers.js');
 const assert = require('assert');
 const models = require('./models.js');
-// const search_worker = new Search_worker('./workers/search-post-workers.js');
+// require('subworkers');
+// const worker = new subworkers('../workers/search-workers.js');
 
 db.client.connect(function (err) {
     assert.ifError(err);
 });
-
-// app.use(bodyParser());
 
 module.exports = {
   get: {
@@ -37,7 +36,8 @@ module.exports = {
         await next();
         if (ctx.status === 404) {
           console.log('get request sent?')
-          
+          // worker.requestVideoLibrary(ctx.params);
+          worker.requestVideoLibrary(ctx.params);
         }
         ctx.body = found.rows[0].videotitle
         //add to queue 
