@@ -2,6 +2,7 @@ const db = require('../database/database-index.js');
 const helpers = require('./helpers.js');
 const assert = require('assert');
 const models = require('./models.js');
+// const search_worker = new Search_worker('./workers/search-post-workers.js');
 
 db.client.connect(function (err) {
     assert.ifError(err);
@@ -13,7 +14,6 @@ module.exports = {
   get: {
     userHome: async (ctx) => {
       try {
-        ctx.response.status = 418
         let user = ctx.userid;
         let region_data = await models.get.ByRegion(userid);
         let watched_data = await models.get.videoList(info.videowatched);
@@ -23,7 +23,7 @@ module.exports = {
         console.log('userHome error handler:', err.message);
       };
     },
-    searchVideo: async (ctx) => {
+    searchVideo: async (ctx, next) => {
       //userid - to post into the search table
       //region - to find available video in the region table
       //search - what the user searched for
@@ -34,14 +34,19 @@ module.exports = {
         let region = ctx.params.region;
         let search = ctx.params.search;
         let found = await models.get.searchVideo(region, search);
+        await next();
+        if (ctx.status === 404) {
+          console.log('get request sent?')
+          
+        }
         ctx.body = found.rows[0].videotitle
         //add to queue 
         //add background worker that sends posts to search records tables
-        // models.post.searchInfo(time, userid, region, search); 
+        models.post.searchInfo(time, userid, region, search); 
       } catch (err) {
         console.log('searchVideo error handler:', err.message);
       };
-    }
+    },
   },
   post: {
     //to get the video to compile lists and post into the user list tables
@@ -70,10 +75,19 @@ module.exports = {
         models.post.updateByWatched(info.userid, watched)
         models.post.insertBySaved(info.userid, saved)
         models.post.updateBySaved(info.userid, saved)
-        ctx.response.status = 200
+        ctx.status = 200
       } catch (err) {
         console.log('storeUser error handler:', err.message);
       };
+    },
+    requestVideo: () =>  {
+
+    },
+    searchedVideos: () => {
+
+    },
+    updateVideos: () => {
+
     },
     placeholder: 'placeholder'
   },

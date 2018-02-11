@@ -8,6 +8,8 @@ const router = new Router()
 
 app.use(bodyParser())
 
+
+
 router
   .all('/', async (ctx) => {
     ctx.body = "halp"
@@ -25,22 +27,21 @@ router
   .get('/userHome/:userid/', controllers.get.userHome)
   //get and return searched videos in the dbase
   .get('/browse/:userid/:region/:search', controllers.get.searchVideo)
+  //have service worker post in the background
+
   //eventual gets
   // .get('/browse/:userid/:region/:genre', controllers.get.searchVideoGenre)
   // .get('/browse/:userid/:region/:original', controllers.get.searchVideoOriginal)
   // .get('/browse/:userid/:region', controllers.get.searchVideoRegion)
 
   //request and save searched videos to VideoLists
-  // .get('requestVideoLibrary/:region/:search', controllers.get.requestVideo)
-  
-  // .post('/addVideoLibrary/:region',controllers.put.requestVideo)
+  .post('/addVideoLibrary',controllers.post.requestVideo)
 
   //collect and send searched info to Analytics
   //will continuously push the searches into an object; send to the analytics every
   //3 minutes
-  // .post('/sendSearchInfo', controllers.post.searchedVideos)
-
-
+  .post('/sendSearchInfo', controllers.post.searchedVideos)
+  .post('/updateVideos', controllers.post.updateVideos)
   //post searched videos information
   //post videos to delete
   //post videos that are popular = top 100 per region
