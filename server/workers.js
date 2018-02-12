@@ -1,26 +1,24 @@
-// self.addEventListener('message', function(e) {
-//   // Send the message back.
-//   self.postMessage('You said: ' + e.data);
-// }, false);
+// process.on('message', (msg) => {
+//   console.log('Message from parent:', msg);
+// });
 
-// let requestVideoLibrary = self.addEventListener('message', function(e) {  
+// let counter = 0;
 
-// self.addEventListener('message', function(e) {  
-  // requestVideoLibrary = (e) => {
-  //   router.get('/requestVideoLibrary', async (ctx) => {
-  //     try {
-  //       console.log('get request maybe sent?')
-  //       ctx.request = {'search': 'search', 'region': 'region'};
-  //       ctx.status = 200;
-  //     } catch (err) {
-  //      console.log('searchInfo error handler:', err.message);
-  //    }
-  //   });
-  // }
-  // self.requestVideoLibrary(e.data);
-// }, false);
-// module.exports = { requestVideoLibrary  };
-onmessage = function (ev) {
-  postMessage(ev.data);
-};
-// module.exports = { onmessage }
+// setInterval(() => {
+//   process.send({ counter: counter++ });
+// }, 1000);
+
+// module.exports = {
+  requestVideoLibrary = (info) => {
+    router.get('/requestVideoLibrary', async (ctx) => {
+      try {
+        console.log('get request maybe sent?')
+        ctx.request = {'search': info.search, 'region': info.region };
+        ctx.status = 201;
+      } catch (err) {
+       console.log('searchInfo error handler:', err.message);
+     }
+    });
+  }
+// }
+// module.exports = { requestVideoLibrary };
