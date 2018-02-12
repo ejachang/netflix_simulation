@@ -79,9 +79,11 @@ module.exports = {
     },
     requestVideos: async (ctx) =>  {
       try{
+        //add everything to the library
         //get all the regions e.g. ["america, asia"]
         //need to match the video data to the correct region table
-        //update videos_by_id, videos_by_region, videos_by_titles_[region], video_titles_by_id
+        //update videos_by_titles_[region], video_titles_by_id
+        // TODO: modify controllers.get.ByRegion to find query videos_by_{region} and delete videos_by_region
         let regions = ctx.request.body.regions;
         let videos = ctx.request.body.videoData;
         console.log('videos', videos)
@@ -92,7 +94,6 @@ module.exports = {
       } catch (err) {
         console.log('requestVideo error handler:', err.message);
       }
-      
     },
     updateVideos: async (ctx) => {
       try{
@@ -105,8 +106,6 @@ module.exports = {
       } catch (err) {
         console.log('updateVideos error handler:', err.message);
       }
-
-
     },
     placeholder: 'placeholder'
   },

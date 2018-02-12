@@ -57,9 +57,31 @@ module.exports = {
       const post_search = 'INSERT INTO search_by_time (time, userid, region, search) VALUES (?, ?, ?, ?)';
       const params = [time, userid, region, search];
       db.client.execute(post_search, params, { prepare: true });
+    },
+    insertVideosByRegionDB: (region, videotitle) => {
+      const query = `INSERT INTO videos_by_titles_${region} (videotitle) VALUES (?)`;
+      const params = [videotitle];
+      db.client.execute(query, params, { prepare: true });
+    },
+    insertVideosByIDDB: (region, info) => {
+      const query = `INSERT INTO videos_by_id (videoid, genre, licensing, original, time, videotitle) VALUES (?, ?, ?, ?, ?, ?)`;
+      const params = [videoid, genre, licensing, original, time, videotitle];
+      db.client.execute(query, params, { prepare: true });
     }
   },
+// DELETE id FROM cyclist_id 
+// WHERE lastname = 'WELTEN' AND firstname = 'Bram' 
+// IF age = 2000;
   delete: {
-    placeholder: 'placeholder'
+    videosByRegionDB: (region, videotitle) => {
+      const query = `DELETE FROM videos_by_titles_${region} WHERE videotitle=?`;
+      const params = [videotitle];
+      db.client.execute(query, params, { prepare: true });
+    },
+    videosByIDDB: (region, videoid) => {
+      const query = `DELETE FROM ideos_by_id WHERE videoid=?`;
+      const params = [videoid];
+      db.client.execute(query, params, { prepare: true });
+    }
   },
 }
