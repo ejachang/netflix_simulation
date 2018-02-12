@@ -18,12 +18,16 @@ router
 
   //  USER:
   //  NOTES:
-  //  if the user exists, update their videos list. If it doesn't, find based on id and insert
+  // compile the lists and return 
+  // TODO: background worker will update the records to url: /userHome/:userid/
   .post('/api/login', controllers.post.storeUser)
   // .post('http://localhost:8080/api/login', controllers.post.storeUser)
 
+  //this is for the cache
   //based on userid, get watch/saved list; based on region, get the userid
-  .get('/userHome/:userid/', controllers.get.userHome)
+  // .get('/userHome/:userid/', controllers.get.userHome)
+
+  //SEARCH
   //get and return searched videos in the dbase
   .get('/browse/:userid/:region/:search', controllers.get.searchVideo)
   //TODO: have service worker post in the background
