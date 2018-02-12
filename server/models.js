@@ -17,6 +17,20 @@ module.exports = {
       const params = [list[0], list[1], list[2]];
       return db.client.execute(query, params, { prepare: true });
     },
+    userWatchedList: (userid) => {
+      const query = 'SELECT * from saved_video_by_user WHERE userid=?';
+      const params = [userid];
+      return db.client.execute(query, params, { prepare: true });
+    },
+    userSavedList: (userid) => {
+      const query = 'SELECT * from watched_video_by_user WHERE userid=?';
+      const params = [userid];
+      return db.client.execute(query, params, { prepare: true });
+    },
+    userRegionList: (userid) => {
+      const query = 'SELECT * from region_videos_by_user WHERE userid=?';
+      return db.client.execute(query, [userid], { prepare: true });
+    },
     singleVideo: (videoid) => {
       const query = 'SELECT * from video_titles_by_id WHERE videoid IN (?)';
       const params = [videoid];

@@ -25,7 +25,7 @@ router
 
   //this is for the cache
   //based on userid, get watch/saved list; based on region, get the userid
-  // .get('/userHome/:userid/', controllers.get.userHome)
+  .get('/userHome/:userid/', controllers.get.userHome)
 
   //SEARCH
   //get and return searched videos in the dbase

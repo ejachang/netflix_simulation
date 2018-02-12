@@ -5,8 +5,8 @@ const models = require('./models.js');
 const Router = require('koa-router')
 const router = new Router()
 
-const { fork } = require('child_process');
-const forked = fork('./server/workers.js');
+// const { fork } = require('child_process');
+// const forked = fork('./server/workers.js');
 
 db.client.connect(function (err) {
     assert.ifError(err);
@@ -17,11 +17,29 @@ module.exports = {
     //get userhome info - might take out
     userHome: async (ctx) => {
       try {
-        let user = ctx.userid;
-        let region_data = await models.get.ByRegion(userid);
-        let watched_data = await models.get.videoList(info.videowatched);
-        let saved_data = await models.get.videoList(info.videosaved);
-        ctx.body = [region_data.rows, watched_data.rows, saved_data.rows];
+        console.log(ctx.params.userid)
+        let userid = ctx.params.userid;
+        let region_data = await models.get.userRegionList(userid);
+        let watched_data = await models.get.userWatchedList(userid);
+        let saved_data = await models.get.userSavedList(userid);
+        // console.log(watched_data)
+        ctx.body = {
+          'video list' : {
+            videotitle1: region_data.rows[0].videotitle1,
+            videotitle2: region_data.rows[0].videotitle2,
+            videotitle3: region_data.rows[0].videotitle3,
+          },
+          'watched list': {
+            videotitle1: watched_data.rows[0].videotitle1,
+            videotitle2: watched_data.rows[0].videotitle1,
+            videotitle3: watched_data.rows[0].videotitle3,
+          },
+          'saved list': {
+            videotitle1: saved_data.rows[0].videotitle1,
+            videotitle2: saved_data.rows[0].videotitle1,
+            videotitle3: saved_data.rows[0].videotitle3,
+          }
+        }
       } catch (err) {
         console.log('userHome error handler:', err.message);
       };
