@@ -12,8 +12,14 @@ module.exports = {
       return db.client.execute(query, [region], { prepare: true });
     },
     videoList: (list) => {
+      //TODO: update
       const query = 'SELECT * from video_titles_by_id WHERE videoid IN (?, ?, ?)';
       const params = [list[0], list[1], list[2]];
+      return db.client.execute(query, params, { prepare: true });
+    },
+    singleVideo: (videoid) => {
+      const query = 'SELECT * from video_titles_by_id WHERE videoid IN (?)';
+      const params = [videoid];
       return db.client.execute(query, params, { prepare: true });
     },
     searchVideo: (region, search) => {
@@ -63,8 +69,8 @@ module.exports = {
       const params = [videotitle];
       db.client.execute(query, params, { prepare: true });
     },
-    insertVideosByIDDB: (region, info) => {
-      const query = `INSERT INTO videos_by_id (videoid, genre, licensing, original, time, videotitle) VALUES (?, ?, ?, ?, ?, ?)`;
+    insertVideosByIDDB: (videoid, videotitle) => {
+      const query = `INSERT INTO videos_by_id (videoid videotitle) VALUES (?, ?)`;
       const params = [videoid, genre, licensing, original, time, videotitle];
       db.client.execute(query, params, { prepare: true });
     }
@@ -78,8 +84,8 @@ module.exports = {
       const params = [videotitle];
       db.client.execute(query, params, { prepare: true });
     },
-    videosByIDDB: (region, videoid) => {
-      const query = `DELETE FROM ideos_by_id WHERE videoid=?`;
+    videosByIDDB: (videoid, videotitle) => {
+      const query = `DELETE FROM videos_by_id WHERE videoid=?`;
       const params = [videoid];
       db.client.execute(query, params, { prepare: true });
     }

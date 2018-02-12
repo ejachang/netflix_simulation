@@ -84,30 +84,71 @@ module.exports = {
         //need to match the video data to the correct region table
         //update videos_by_titles_[region], video_titles_by_id
         // TODO: modify controllers.get.ByRegion to find query videos_by_{region} and delete videos_by_region
+        // TODO: update video_titles_by_id to just the videoid-videotitle
         let regions = ctx.request.body.regions;
         let videos = ctx.request.body.videoData;
-        console.log('videos', videos)
+        // console.log('videos', videos)
+        // post to videoids table
+        for (var j = 0; j < videos.length; j++) {
+          // models.post.insertVideosByIDDB(videos[j]._id, videos[j].title);
+        };
+        // TODO: have a worker joining the title and ids
         for (var i = 0; i < regions.length; i++) {
-          console.log('region', regions[i])
-        }
-        console.log('ctx', ctx);
+          console.log('region', i, Object.keys(regions[i])[0]);
+          for (var k = 0; k < regions[i].length; k++) {
+             let video = await models.get.singleVideo(info.videowatched);
+             models.post.insertVideosByRegionDB(Object.keys(regions[i])[0], video);
+          }
+        };
+        // console.log('ctx', ctx);
       } catch (err) {
         console.log('requestVideo error handler:', err.message);
       }
     },
     updateVideos: async (ctx) => {
       try{
-        //array of region obj with value of array videoids
-        let regions = ctx.request.body.regions
+        let regions = ctx.request.body.regions;
+        let videos = ctx.request.body.videoData;
+        // console.log('videos', videos)
+        // post to videoids table
+        for (var j = 0; j < videos.length; j++) {
+          // models.post.insertVideosByIDDB(videos[j]._id, videos[j].title);
+        };
+        // TODO: have a worker joining the title and ids
         for (var i = 0; i < regions.length; i++) {
-          // console.log(regions[i])
-        }
-        // console.log(ctx.request.body);
+          console.log('region', i, Object.keys(regions[i])[0]);
+          for (var k = 0; k < regions[i].length; k++) {
+             let video = await models.get.singleVideo(info.videowatched);
+             models.post.insertVideosByRegionDB(Object.keys(regions[i])[0], video);
+          }
+        };
       } catch (err) {
         console.log('updateVideos error handler:', err.message);
       }
     },
-    placeholder: 'placeholder'
+    delete: {
+      deleteVideos: async (ctx) => {
+        try {
+          let regions = ctx.request.body.regions;
+          let videos = ctx.request.body.videoData;
+          // console.log('videos', videos)
+          // post to videoids table
+          for (var j = 0; j < videos.length; j++) {
+            // models.delelte.videosByIDDB(videos[j]._id, videos[j].title);
+          };
+        // TODO: have a worker joining the title and ids
+        for (var i = 0; i < regions.length; i++) {
+          console.log('region', i, Object.keys(regions[i])[0]);
+          for (var k = 0; k < regions[i].length; k++) {
+             let video = await models.get.singleVideo(info.videowatched);
+             models.delete.videosByRegionDB(Object.keys(regions[i])[0], video);
+          }
+        };
+        } catch (err) {
+
+        }
+      }
+    }
   },
 }
 
