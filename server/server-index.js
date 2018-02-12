@@ -37,8 +37,8 @@ router
   //request and save searched videos to VideoLists
   .post('/requestVideos',controllers.post.requestVideos)
   .post('/updateVideos', controllers.post.updateVideos)
-  //post searched videos information
-  //post videos to delete
+  .delete('/removeVideos', controllers.delete.deleteVideos)
+  
   //post videos that are popular = top 100 per region
   //delete videos to delete
 

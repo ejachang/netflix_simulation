@@ -34,13 +34,12 @@ module.exports = {
           router.get('/requestSearch', (ctx) => {
             ctx.body = ctx.params;
           });
-          // TODO: QUESTION TO KENNY - WANT FAILED SEARCHES?
-          // router.post('/searchedInfo', (ctx) => {
-          //   ctx.body.userid = ctx.params.userid;
-          //   ctx.body.region = ctx.params.region;
-          //   ctx.body.search = ctx.params.serach;
-          //   ctx.body.time = time;
-          // });
+          router.post('/searchedInfo', (ctx) => {
+            ctx.body.userid = ctx.params.userid;
+            ctx.body.region = ctx.params.region;
+            ctx.body.search = ctx.params.serach;
+            ctx.body.time = time;
+          });
         }
         let time = JSON.stringify(helpers.getDate()).toString();
         let region = ctx.params.region;
@@ -67,10 +66,16 @@ module.exports = {
   },
   post: {
     //to get the video to compile lists and post into the user list tables
-    storeUser: async (ctx, next) => {
+    storeUser: async (ctx) => {
       try {
-        helpers.getTitlesOnly(ctx.request.body)
-        helpers.postUserInfoToDB(info, region, watched, saved);
+        let info = ctx.request.body;
+        // console.log('info', info)
+        let userid = info.userid;
+        let region = info.region;
+        let watched = info.videowatched;
+        let saved = info.videosaved;
+        let list = await helpers.getTitlesOnly(region, watched, saved)
+        helpers.postUserInfoToDB(userid, list[0], list[1], list[2]);
         
         ctx.status = 200
       } catch (err) {
@@ -126,14 +131,15 @@ module.exports = {
         console.log('updateVideos error handler:', err.message);
       }
     },
-    delete: {
-      deleteVideos: async (ctx) => {
-        try {
-          let regions = ctx.request.body.regions;
-          let videos = ctx.request.body.videoData;
+  },
+  delete: {
+    deleteVideos: async (ctx) => {
+      try {
+        let regions = ctx.request.body.regions;
+        let videos = ctx.request.body.videoData;
           // console.log('videos', videos)
           // post to videoids table
-          for (var j = 0; j < videos.length; j++) {
+        for (var j = 0; j < videos.length; j++) {
             // models.delelte.videosByIDDB(videos[j]._id, videos[j].title);
           };
         // TODO: have a worker joining the title and ids
@@ -149,6 +155,5 @@ module.exports = {
         }
       }
     }
-  },
 }
 
