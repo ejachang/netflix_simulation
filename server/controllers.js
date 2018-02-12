@@ -6,9 +6,7 @@ const Router = require('koa-router')
 const router = new Router()
 
 const { fork } = require('child_process');
-
 const forked = fork('./server/workers.js');
-
 
 db.client.connect(function (err) {
     assert.ifError(err);
@@ -71,38 +69,15 @@ module.exports = {
     //to get the video to compile lists and post into the user list tables
     storeUser: async (ctx, next) => {
       try {
-        let info = ctx.request.body;
-        userid = info.userid
-        let region_videos = await models.get.ByRegion(info.region);
-        let region = [];
-        for (var i = 0; i < region_videos.rows.length; i++) {
-          region.push(region_videos.rows[i].videotitle)
-        }
-        let watched_videos = await models.get.videoList(info.videowatched);
-        let watched = [];
-        for (var i = 0; i < watched_videos.rows.length; i++) {
-          watched.push(watched_videos.rows[i].videotitle)
-        }
-        let saved_videos = await models.get.videoList(info.videosaved);
-        let saved = [];
-        for (var i = 0; i < saved_videos.rows.length; i++) {
-          saved.push(saved_videos.rows[i].videotitle)
-        }
-        models.post.insertByRegion(info.userid, region)
-        models.post.updateByRegion(info.userid, region)
-        models.post.insertByWatched(info.userid, watched)
-        models.post.updateByWatched(info.userid, watched)
-        models.post.insertBySaved(info.userid, saved)
-        models.post.updateBySaved(info.userid, saved)
+        helpser.getTitlesOnly(ctx.request.body)
+        helpers.postUserInfoToDB(info, region, watched, saved);
+        
         ctx.status = 200
       } catch (err) {
         console.log('storeUser error handler:', err.message);
       };
     },
     requestVideo: async (ctx) =>  {
-      
-    },
-    searchedVideos: async (ctx) => {
 
     },
     updateVideos: () => {
