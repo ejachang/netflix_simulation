@@ -8,6 +8,11 @@
 //   process.send({ counter: counter++ });
 // }, 1000);
 
+// for when sending to library
+// setInterval(() => {
+//   process.send({ counter: counter++ });
+// }, 180000);
+
 // module.exports = {
   requestVideoLibrary = (info) => {
     router.get('/requestVideoLibrary', async (ctx) => {

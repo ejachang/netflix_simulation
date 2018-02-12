@@ -16,6 +16,7 @@ db.client.connect(function (err) {
 
 module.exports = {
   get: {
+    //get userhome info - might take out
     userHome: async (ctx) => {
       try {
         let user = ctx.userid;
@@ -27,47 +28,44 @@ module.exports = {
         console.log('userHome error handler:', err.message);
       };
     },
+    //search video titles
     searchVideo: async (ctx, next) => {
-      //userid - to post into the search table
-      //region - to find available video in the region table
-      //search - what the user searched for
-      //also post to the dbase
       try {
-        let time = JSON.stringify(helpers.getDate()).toString();
-        let userid = ctx.params.userid
-        let region = ctx.params.region;
-        let search = ctx.params.search;
-        let found = await models.get.searchVideo(region, search);
-        await next();
         if (ctx.status === 404) {
-          // console.log('get request sent?')
-          //test if this was sent
+          //TODO: TEST THIS
           router.get('/requestSearch', (ctx) => {
             ctx.body = ctx.params;
           });
+          // TODO: QUESTION TO KENNY - WANT FAILED SEARCHES?
+          // router.post('/searchedInfo', (ctx) => {
+          //   ctx.body.userid = ctx.params.userid;
+          //   ctx.body.region = ctx.params.region;
+          //   ctx.body.search = ctx.params.serach;
+          //   ctx.body.time = time;
+          // });
         }
+        let time = JSON.stringify(helpers.getDate()).toString();
+        let region = ctx.params.region;
+        let search = ctx.params.search;
+        let found = await models.get.searchVideo(region, search);
+        router.post('/searchedInfo', (ctx) => {
+          ctx.body.userid = ctx.params.userid;
+          ctx.body.region = ctx.params.region;
+          ctx.body.search = ctx.params.serach;
+          ctx.body.time = time;
+        });
         ctx.body = found.rows[0].videotitle
         //add to queue 
         //add background worker that sends posts to search records tables
         models.post.searchInfo(time, userid, region, search); 
       } catch (err) {
-        //stores the details with the userid, region, and search term
-        // console.log(ctx.params)
+        //TODO: TEST THIS
         ctx.body = "Video not in library"
         console.log('searchVideo error handler:', err.message);
       };
     },
-    requestSearch: async (cxt, next) => {
-      try{
-        let videoid = ctx.id;
-        let videotitle = ctx.title;
-        let region = ctx.region;
-        let genre = ctx.genre;
-        let popularity = ctx.popularity;
-      } catch (err) {
-        console.log('requestSearch error: ', err.message);
-      }
-    },
+    //collect and send searched info to Analytics
+    //send to the analytics every 3 minutes
   },
   post: {
     //to get the video to compile lists and post into the user list tables
@@ -101,10 +99,10 @@ module.exports = {
         console.log('storeUser error handler:', err.message);
       };
     },
-    requestVideo: () =>  {
-
+    requestVideo: async (ctx) =>  {
+      
     },
-    searchedVideos: (ctx) => {
+    searchedVideos: async (ctx) => {
 
     },
     updateVideos: () => {
