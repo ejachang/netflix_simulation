@@ -2,6 +2,8 @@ const db = require('../database/database-index.js');
 const helpers = require('./helpers.js');
 const assert = require('assert');
 const models = require('./models.js');
+const Router = require('koa-router')
+const router = new Router()
 
 const { fork } = require('child_process');
 
@@ -38,18 +40,33 @@ module.exports = {
         let found = await models.get.searchVideo(region, search);
         await next();
         if (ctx.status === 404) {
-          console.log('get request sent?')
-          forked.on('error', search_worker.requestVideoLibrary(ctx.params));
-
-
+          // console.log('get request sent?')
+          //test if this was sent
+          router.get('/requestSearch', (ctx) => {
+            ctx.body = ctx.params;
+          });
         }
         ctx.body = found.rows[0].videotitle
         //add to queue 
         //add background worker that sends posts to search records tables
         models.post.searchInfo(time, userid, region, search); 
       } catch (err) {
+        //stores the details with the userid, region, and search term
+        // console.log(ctx.params)
+        ctx.body = "Video not in library"
         console.log('searchVideo error handler:', err.message);
       };
+    },
+    requestSearch: async (cxt, next) => {
+      try{
+        let videoid = ctx.id;
+        let videotitle = ctx.title;
+        let region = ctx.region;
+        let genre = ctx.genre;
+        let popularity = ctx.popularity;
+      } catch (err) {
+        console.log('requestSearch error: ', err.message);
+      }
     },
   },
   post: {
@@ -87,10 +104,12 @@ module.exports = {
     requestVideo: () =>  {
 
     },
-    searchedVideos: () => {
+    searchedVideos: (ctx) => {
 
     },
     updateVideos: () => {
+
+
 
     },
     placeholder: 'placeholder'

@@ -26,7 +26,7 @@ router
   //get and return searched videos in the dbase
   .get('/browse/:userid/:region/:search', controllers.get.searchVideo)
   //have service worker post in the background
-
+  
   //eventual gets
   // .get('/browse/:userid/:region/:genre', controllers.get.searchVideoGenre)
   // .get('/browse/:userid/:region/:original', controllers.get.searchVideoOriginal)
