@@ -29,6 +29,12 @@ module.exports = {
     //search video titles
     searchVideo: async (ctx, next) => {
       try {
+        let time = JSON.stringify(helpers.getDate()).toString();
+        let region = ctx.params.region;
+        let userid = ctx.params.userid;
+        let search = ctx.params.search;
+        let found = await models.get.searchVideo(region, search);
+
         if (ctx.status === 404) {
           //TODO: TEST THIS
           router.get('/requestSearch', (ctx) => {
@@ -40,23 +46,32 @@ module.exports = {
             ctx.body.search = ctx.params.serach;
             ctx.body.time = time;
           });
-        }
-        let time = JSON.stringify(helpers.getDate()).toString();
-        let region = ctx.params.region;
-        let search = ctx.params.search;
-        let found = await models.get.searchVideo(region, search);
+        }   
+        // router.post('/searchedInfo', helpers.postToSearch(ctx, time));
+        
         router.post('/searchedInfo', (ctx) => {
           ctx.body.userid = ctx.params.userid;
           ctx.body.region = ctx.params.region;
           ctx.body.search = ctx.params.serach;
           ctx.body.time = time;
         });
+
         ctx.body = found.rows[0].videotitle
         //add to queue 
         //add background worker that sends posts to search records tables
         models.post.searchInfo(time, userid, region, search); 
       } catch (err) {
         //TODO: TEST THIS
+        let time = JSON.stringify(helpers.getDate()).toString();
+        let region = ctx.params.region;
+        let userid = ctx.params.userid;
+        let search = ctx.params.search;
+        router.post('/searchedInfo', (ctx) => {
+          ctx.body.userid = userid;
+          ctx.body.region = region;
+          ctx.body.search = search;
+          ctx.body.time = time;
+        });
         ctx.body = "Video not in library"
         console.log('searchVideo error handler:', err.message);
       };
@@ -70,14 +85,20 @@ module.exports = {
       try {
         let info = ctx.request.body;
         // console.log('info', info)
-        let userid = info.userid;
+        let userid = JSON.parse(info.userid);
         let region = info.region;
-        let watched = info.videowatched;
-        let saved = info.videosaved;
+        let watched = JSON.parse(info.videowatched);
+        let saved = JSON.parse(info.videosaved);
         let list = await helpers.getTitlesOnly(region, watched, saved)
-        helpers.postUserInfoToDB(userid, list[0], list[1], list[2]);
-        
+        // list = JSON.parse(list);
+        // let toReturn = {
+        //   "region": list[0],
+        //   "watched list": list[1],
+        //   "saved list": list[2]
+        // };
         ctx.status = 200
+        // console.log('ctx body', ctx.body)
+        // helpers.postUserInfoToDB(userid, list[0], list[1], list[2]);
       } catch (err) {
         console.log('storeUser error handler:', err.message);
       };

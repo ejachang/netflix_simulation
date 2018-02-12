@@ -1,6 +1,8 @@
 const models = require('./models.js');
 // const db = require('../database/database-index.js');
 const assert = require('assert');
+const Router = require('koa-router')
+const router = new Router()
 // db.client.connect(function (err) {
 //   assert.ifError(err);
 // });
@@ -39,5 +41,13 @@ module.exports = {
       saved.push(saved_videos.rows[k].videotitle)
     }
     return [regions, watched, saved];   
+  },
+  postToSearch: (ctx, time) => {
+    // console.log('postToSearch', ctx.params.userid)
+      ctx.body.userid = ctx.params.userid;
+      ctx.body.region = ctx.params.region;
+      ctx.body.search = ctx.params.serach;
+      ctx.body.time = time;
+      return ctx.body;
   }
 }

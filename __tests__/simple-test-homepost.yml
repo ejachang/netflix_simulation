@@ -1,20 +1,22 @@
+#posting to dbase 
 config:
   target: 'http://localhost:8886'
   phases:
     - duration: 60
-      arrivalRate: 100
+      arrivalRate: 50
   processor: "./my-functions.js"
 
 scenarios:
   - name: "post a user"
     flow:
-      - function: "generateRandomData"
-      - post:
-          url: "/api/login"
-          # beforeRequest: "convertIDToInt"
-          json:
-            userid: "{{ userid }}"
-            videowatched: "{{ videowatched }}"
-            videosaved: "{{ videosaved }}"
-            region: "{{ region }}" 
+      - loop:
+        - function: "generateRandomData"
+        - post:
+            url: "/api/login"
+            count: 1
+            json:
+              userid: "{{ userid }}"
+              videowatched: "{{ videowatched }}"
+              videosaved: "{{ videosaved }}"
+              region: "{{ region }}" 
       # - log: "Sent a request to /api/login with {{ userid }}, {{ videowatched }}, {{ videosaved }}, {{ region }}"
