@@ -2,8 +2,8 @@ const db = require('../database/database-index.js');
 const helpers = require('./helpers.js');
 const assert = require('assert');
 const models = require('./models.js');
-// require('subworkers');
-// const worker = new subworkers('../workers/search-workers.js');
+const Worker = require('tiny-worker');
+// const worker = new Worker('workers.js');
 
 db.client.connect(function (err) {
     assert.ifError(err);
@@ -36,9 +36,15 @@ module.exports = {
         await next();
         if (ctx.status === 404) {
           console.log('get request sent?')
-          // worker.requestVideoLibrary(ctx.params);
-          worker.requestVideoLibrary(ctx.params);
+          // search_worker.requestVideoLibrary(ctx.params);
         }
+        worker.onmessage = function (ev) {
+          console.log(ev.data);
+          worker.terminate();
+        };
+       
+        worker.postMessage("Hello World!");
+
         ctx.body = found.rows[0].videotitle
         //add to queue 
         //add background worker that sends posts to search records tables
