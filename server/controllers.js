@@ -69,7 +69,7 @@ module.exports = {
     //to get the video to compile lists and post into the user list tables
     storeUser: async (ctx, next) => {
       try {
-        helpser.getTitlesOnly(ctx.request.body)
+        helpers.getTitlesOnly(ctx.request.body)
         helpers.postUserInfoToDB(info, region, watched, saved);
         
         ctx.status = 200
@@ -77,11 +77,34 @@ module.exports = {
         console.log('storeUser error handler:', err.message);
       };
     },
-    requestVideo: async (ctx) =>  {
-
+    requestVideos: async (ctx) =>  {
+      try{
+        //get all the regions e.g. ["america, asia"]
+        //need to match the video data to the correct region table
+        //update videos_by_id, videos_by_region, videos_by_titles_[region], video_titles_by_id
+        let regions = ctx.request.body.regions;
+        let videos = ctx.request.body.videoData;
+        console.log('videos', videos)
+        for (var i = 0; i < regions.length; i++) {
+          console.log('region', regions[i])
+        }
+        console.log('ctx', ctx);
+      } catch (err) {
+        console.log('requestVideo error handler:', err.message);
+      }
+      
     },
-    updateVideos: () => {
-
+    updateVideos: async (ctx) => {
+      try{
+        //array of region obj with value of array videoids
+        let regions = ctx.request.body.regions
+        for (var i = 0; i < regions.length; i++) {
+          // console.log(regions[i])
+        }
+        // console.log(ctx.request.body);
+      } catch (err) {
+        console.log('updateVideos error handler:', err.message);
+      }
 
 
     },

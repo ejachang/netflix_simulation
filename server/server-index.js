@@ -35,7 +35,7 @@ router
 
   //VIDEOLISTS
   //request and save searched videos to VideoLists
-  .post('/addVideoLibrary',controllers.post.requestVideo)
+  .post('/requestVideos',controllers.post.requestVideos)
   .post('/updateVideos', controllers.post.updateVideos)
   //post searched videos information
   //post videos to delete
