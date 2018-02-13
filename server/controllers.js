@@ -14,7 +14,7 @@ db.client.connect(function (err) {
 
 module.exports = {
   get: {
-    //get userhome info - might take out
+    //for cache-like purposes
     userHome: async (ctx) => {
       try {
         console.log(ctx.params.userid)
@@ -22,7 +22,6 @@ module.exports = {
         let region_data = await models.get.userRegionList(userid);
         let watched_data = await models.get.userWatchedList(userid);
         let saved_data = await models.get.userSavedList(userid);
-        // console.log(watched_data)
         ctx.body = {
           'video list' : {
             videotitle1: region_data.rows[0].videotitle1,
@@ -105,17 +104,18 @@ module.exports = {
         // console.log('info', info)
         let userid = JSON.parse(info.userid);
         let region = info.region;
-        let watched = JSON.parse(info.videowatched);
-        let saved = JSON.parse(info.videosaved);
-        let list = await helpers.getTitlesOnly(region, watched, saved)
-        // list = JSON.parse(list);
-        // let toReturn = {
-        //   "region": list[0],
-        //   "watched list": list[1],
-        //   "saved list": list[2]
-        // };
+        let watched = info.videowatched;
+        let saved = info.videosaved;
+        let list = await helpers.getHomeTitles(region, watched, saved)
         ctx.status = 200
-        // console.log('ctx body', ctx.body)
+        let toReturn = {
+          "region video list": list[0],
+          "watched list": list[1],
+          "saved list": list[2]
+        };
+        ctx.redirect(`userHome/${userid}`);
+        ctx.status = 301;
+        //TODO: to add to queue:
         // helpers.postUserInfoToDB(userid, list[0], list[1], list[2]);
       } catch (err) {
         console.log('storeUser error handler:', err.message);
@@ -134,14 +134,20 @@ module.exports = {
         // console.log('videos', videos)
         // post to videoids table
         for (var j = 0; j < videos.length; j++) {
+          console.log('videos to insert', videos[j]._id, videos[j].title)
           // models.post.insertVideosByIDDB(videos[j]._id, videos[j].title);
         };
-        // TODO: have a worker joining the title and ids
+        // TODO: have a worker joining the title and ids?
         for (var i = 0; i < regions.length; i++) {
-          console.log('region', i, Object.keys(regions[i])[0]);
-          for (var k = 0; k < regions[i].length; k++) {
-             let video = await models.get.singleVideo(info.videowatched);
-             models.post.insertVideosByRegionDB(Object.keys(regions[i])[0], video);
+          let region_key = Object.keys(regions[i])[0]
+          // console.log('region', i, region_key, regions[i][region_key]);
+          for (var k = 0; k < regions[i][region_key].length; k++) {
+            let videoid = regions[i][region_key][k];
+            // console.log('videoid test', videoid)
+            // console.log('individual', i, region_key, regions[i][region_key][k]);
+             let video = await models.get.singleVideo(videoid);
+            //  console.log(video.rows)
+            //  models.post.insertVideosByRegionDB(Object.keys(regions[i])[0], video);
           }
         };
         // console.log('ctx', ctx);
@@ -176,7 +182,6 @@ module.exports = {
       try {
         let regions = ctx.request.body.regions;
         let videos = ctx.request.body.videoData;
-          // console.log('videos', videos)
           // post to videoids table
         for (var j = 0; j < videos.length; j++) {
             // models.delelte.videosByIDDB(videos[j]._id, videos[j].title);

@@ -46,3 +46,18 @@ describe('GET /', function() {
 });
 
 
+describe('GET /', function() {
+  it('Should return an object with three video lists'), function(done) {
+    request.get('http://localhost:8886/userHome/3', function(error, response, body) {
+      //assert video list object has 3 key value pairs
+        //assert pairs are strings
+      //assert watched list object has key value pairs
+        //assert pairs are strings
+      //assert saved list object has key value pairs
+        //assert pairs are strings
+      // server.closeServer();
+      done();
+    })
+  };
+});
+

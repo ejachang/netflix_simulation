@@ -24,7 +24,7 @@ module.exports = {
     models.post.insertBySaved(userid, saved)
     models.post.updateBySaved(userid, saved)
   },
-  getTitlesOnly: async (region, videowatched, videosaved) => {
+  getHomeTitles: async (region, videowatched, videosaved) => {
     let region_videos = await models.get.ByRegion(region);
     let regions = [];
       for (var i = 0; i < region_videos.rows.length; i++) {

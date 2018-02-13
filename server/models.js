@@ -44,7 +44,7 @@ module.exports = {
   },
   post: {
     insertByRegion: (userid, region) => {
-      const insert_region = 'INSERT INTO region_videos_by_user  (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?) IF NOT EXISTS';
+      const insert_region = 'INSERT INTO region_videos_by_user (userid, videotitle1, videotitle2, videotitle3) VALUES (?, ?, ?, ?) IF NOT EXISTS';
       const params =[userid, region[0], region[1], region[2]];
       db.client.execute(insert_region, params, { prepare: true });      
     },
@@ -84,8 +84,8 @@ module.exports = {
       db.client.execute(query, params, { prepare: true });
     },
     insertVideosByIDDB: (videoid, videotitle) => {
-      const query = `INSERT INTO videos_by_id (videoid videotitle) VALUES (?, ?)`;
-      const params = [videoid, genre, licensing, original, time, videotitle];
+      const query = `INSERT INTO video_titles_by_id (videoid, videotitle) VALUES (?, ?)`;
+      const params = [videoid, videotitle];
       db.client.execute(query, params, { prepare: true });
     }
   },

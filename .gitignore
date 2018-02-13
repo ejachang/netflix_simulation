@@ -13,6 +13,7 @@ newrelic.js
 .nyc_output/
 .nyc_output/7671f11cb1d529f125cf0a52b225fa05.json
 .nyc_output/b5699170b49e9c148d571b736bd23446.json
+/rabbitmq/
 
 # OS X
 .DS_Store

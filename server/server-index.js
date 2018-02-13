@@ -10,17 +10,13 @@ app.use(bodyParser())
 
 router
   .all('/', async (ctx) => {
-    ctx.body = "halp"
+    ctx.body = "Welcome to the Netflix Clone"
   })
 
-  //  list will send info: videos to update, videos to delete, videos that are popular
-  //  top 100 per region
-
   //  USER:
-  //  NOTES:
-  // compile the lists and return 
   // TODO: background worker will update the records to url: /userHome/:userid/
-  .post('/api/login', controllers.post.storeUser)
+  // TODO: create dbase of all top 100 per region
+  .all('/api/login', controllers.post.storeUser)
   // .post('http://localhost:8080/api/login', controllers.post.storeUser)
 
   //this is for the cache
@@ -31,7 +27,6 @@ router
   //get and return searched videos in the dbase
   .get('/browse/:userid/:region/:search', controllers.get.searchVideo)
   //TODO: have service worker post in the background
-  
   //TODO: gets
   // .get('/browse/:userid/:region/:genre', controllers.get.searchVideoGenre)
   // .get('/browse/:userid/:region/:original', controllers.get.searchVideoOriginal)
