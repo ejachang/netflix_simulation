@@ -94,12 +94,12 @@ module.exports = {
 // IF age = 2000;
   delete: {
     videosByRegionDB: (region, videotitle) => {
-      const query = `DELETE FROM videos_by_titles_${region} WHERE videotitle=?`;
+      const query = `DELETE FROM videos_by_titles_${region} WHERE videotitle=? IF EXISTS`;
       const params = [videotitle];
       db.client.execute(query, params, { prepare: true });
     },
     videosByIDDB: (videoid, videotitle) => {
-      const query = `DELETE FROM videos_by_id WHERE videoid=?`;
+      const query = `DELETE FROM video_titles_by_id WHERE videoid=? IF EXISTS`;
       const params = [videoid];
       db.client.execute(query, params, { prepare: true });
     }

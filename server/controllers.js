@@ -89,7 +89,7 @@ module.exports = {
           ctx.body.search = search;
           ctx.body.time = time;
         });
-        ctx.body = "Video not in library"
+        ctx.body = "Video currently not available. Please check back later"
         console.log('searchVideo error handler:', err.message);
       };
     },
@@ -121,7 +121,7 @@ module.exports = {
         console.log('storeUser error handler:', err.message);
       };
     },
-    requestVideos: async (ctx) =>  {
+    updateVideos: async (ctx) =>  {
       try{
         // TODO: modify controllers.get.ByRegion to find query videos_by_{region} and delete videos_by_region
         // TODO: update video_titles_by_id to just the videoid-videotitle
@@ -130,7 +130,7 @@ module.exports = {
         // console.log('videos', videos)
         // post to videoids table
         for (var j = 0; j < videos.length; j++) {
-          console.log('videos to insert', videos[j]._id, videos[j].title)
+          // console.log('videos to insert', videos[j]._id, videos[j].title)
           models.post.insertVideosByIDDB(videos[j]._id, videos[j].title);
         };
         for (var i = 0; i < regions.length; i++) {
@@ -139,36 +139,15 @@ module.exports = {
           for (var k = 0; k < regions[i][region_key].length; k++) {
             let videoid = regions[i][region_key][k];
             let video = await models.get.singleVideo(videoid);
-            let region;
-            region_key === "North America" ? region = "namerica" : region = region_key;
-            region_key === "South America" ? region = "samerica" :region = region_key;
+            let region = region_key;
+            region_key === "North America" ? region = "namerica" : null
+            region_key === "South America" ? region = "samerica" : null;
             models.post.insertVideosByRegionDB(region, video.rows[0].videotitle);
           }
         };
         // console.log('ctx', ctx);
       } catch (err) {
-        console.log('requestVideo error handler:', err.message);
-      }
-    },
-    updateVideos: async (ctx) => {
-      try{
-        let regions = ctx.request.body.regions;
-        let videos = ctx.request.body.videoData;
-        // console.log('videos', videos)
-        // post to videoids table
-        for (var j = 0; j < videos.length; j++) {
-          // models.post.insertVideosByIDDB(videos[j]._id, videos[j].title);
-        };
-        // TODO: have a worker joining the title and ids
-        for (var i = 0; i < regions.length; i++) {
-          console.log('region', i, Object.keys(regions[i])[0]);
-          for (var k = 0; k < regions[i].length; k++) {
-             let video = await models.get.singleVideo(info.videowatched);
-             models.post.insertVideosByRegionDB(Object.keys(regions[i])[0], video);
-          }
-        };
-      } catch (err) {
-        console.log('updateVideos error handler:', err.message);
+        console.log('updateVideo error handler:', err.message);
       }
     },
   },
@@ -177,22 +156,32 @@ module.exports = {
       try {
         let regions = ctx.request.body.regions;
         let videos = ctx.request.body.videoData;
-          // post to videoids table
-        for (var j = 0; j < videos.length; j++) {
-            // models.delelte.videosByIDDB(videos[j]._id, videos[j].title);
-          };
         // TODO: have a worker joining the title and ids
         for (var i = 0; i < regions.length; i++) {
-          console.log('region', i, Object.keys(regions[i])[0]);
-          for (var k = 0; k < regions[i].length; k++) {
-             let video = await models.get.singleVideo(info.videowatched);
-             models.delete.videosByRegionDB(Object.keys(regions[i])[0], video);
+        let region_key = Object.keys(regions[i])[0]
+        // console.log('region key', region_key )
+        let region_ids = regions[i][region_key]
+        // console.log('delete region', i, region_key, region_ids);
+          for (var k = 0; k < region_ids.length; k++) {
+            let videoid = region_ids[k];
+            let video = await models.get.singleVideo(videoid);
+            let region = region_key;
+            region_key === "North America" ? region = "namerica" : null
+            region_key === "South America" ? region = "samerica" : null;
+            region_key === "Asia" ? region = "asia" : null;
+            // console.log('region', region)
+            // console.log('video', video.rows[0].videotitle)
+            models.delete.videosByRegionDB(region, video.rows[0].videotitle);
           }
         };
-        } catch (err) {
-
-        }
+        for (var j = 0; j < videos.length; j++) {
+          // console.log('other videos', videos[j]._id, videos[j].title)
+          models.delete.videosByIDDB(videos[j]._id, videos[j].title);
+        };
+      } catch (err) {
+        console.log('deleteVideos message handler: ', err.message);
       }
     }
+  }
 }
 
