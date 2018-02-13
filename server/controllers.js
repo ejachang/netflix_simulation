@@ -123,10 +123,6 @@ module.exports = {
     },
     requestVideos: async (ctx) =>  {
       try{
-        //add everything to the library
-        //get all the regions e.g. ["america, asia"]
-        //need to match the video data to the correct region table
-        //update videos_by_titles_[region], video_titles_by_id
         // TODO: modify controllers.get.ByRegion to find query videos_by_{region} and delete videos_by_region
         // TODO: update video_titles_by_id to just the videoid-videotitle
         let regions = ctx.request.body.regions;
@@ -137,17 +133,16 @@ module.exports = {
           console.log('videos to insert', videos[j]._id, videos[j].title)
           models.post.insertVideosByIDDB(videos[j]._id, videos[j].title);
         };
-        // TODO: have a worker joining the title and ids?
         for (var i = 0; i < regions.length; i++) {
           let region_key = Object.keys(regions[i])[0]
           // console.log('region', i, region_key, regions[i][region_key]);
           for (var k = 0; k < regions[i][region_key].length; k++) {
             let videoid = regions[i][region_key][k];
-            // console.log('videoid test', videoid)
-            // console.log('individual', i, region_key, regions[i][region_key][k]);
-             let video = await models.get.singleVideo(videoid);
-            //  console.log(video.rows)
-            //  models.post.insertVideosByRegionDB(Object.keys(regions[i])[0], video);
+            let video = await models.get.singleVideo(videoid);
+            let region;
+            region_key === "North America" ? region = "namerica" : region = region_key;
+            region_key === "South America" ? region = "samerica" :region = region_key;
+            models.post.insertVideosByRegionDB(region, video.rows[0].videotitle);
           }
         };
         // console.log('ctx', ctx);
