@@ -135,7 +135,7 @@ module.exports = {
         // post to videoids table
         for (var j = 0; j < videos.length; j++) {
           console.log('videos to insert', videos[j]._id, videos[j].title)
-          // models.post.insertVideosByIDDB(videos[j]._id, videos[j].title);
+          models.post.insertVideosByIDDB(videos[j]._id, videos[j].title);
         };
         // TODO: have a worker joining the title and ids?
         for (var i = 0; i < regions.length; i++) {
