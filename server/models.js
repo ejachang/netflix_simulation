@@ -8,8 +8,8 @@ db.client.connect(function (err) {
 module.exports = {
   get: {
     ByRegion: (region) => {
-      const query = 'SELECT * from videos_by_region WHERE region=? limit 3';
-      return db.client.execute(query, [region], { prepare: true });
+      const query = `SELECT * from videos_by_titles_${region} limit 3`;
+      return db.client.execute(query, { prepare: true });
     },
     videoList: (list) => {
       //TODO: update

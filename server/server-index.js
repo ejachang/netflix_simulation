@@ -24,7 +24,6 @@ router
 
   //SEARCH
   .all('/browse/:userid/:region/:search', controllers.get.searchVideo)
-
   //TODO: have service worker post in the background
   //TODO: gets
   // .get('/browse/:userid/:region/:genre', controllers.get.searchVideoGenre)
@@ -33,11 +32,10 @@ router
 
   //VIDEOLISTS
   //request and save searched videos to VideoLists
-
   .post('/postRequestedVideos',controllers.post.updateVideos)
   .post('/updateVideos', controllers.post.updateVideos)
   .delete('/removeVideos', controllers.delete.deleteVideos)
-  
+
   //post videos that are popular = top 100 per region
   //delete videos to delete
 

@@ -107,10 +107,13 @@ module.exports = {
       try {
         let info = ctx.request.body;
         // console.log('info', info)
-        let userid = JSON.parse(info.userid);
-        let region = info.region;
-        let watched = info.videowatched;
-        let saved = info.videosaved;
+        let userid = (info.userid);
+        let region_key = info.region;
+        let watched = (info.videowatched);
+        let saved = (info.videosaved);
+        let region = region_key;
+        region_key === "North America" ? region = "namerica" : null
+        region_key === "South America" ? region = "samerica" : null;
         let list = await helpers.getHomeTitles(region, watched, saved)
         ctx.status = 200
         let toReturn = {
@@ -121,7 +124,7 @@ module.exports = {
         ctx.redirect(`userHome/${userid}`);
         ctx.status = 301;
         //TODO: to add to queue:
-        // helpers.postUserInfoToDB(userid, list[0], list[1], list[2]);
+        helpers.postUserInfoToDB(userid, list[0], list[1], list[2]);
       } catch (err) {
         console.log('storeUser error handler:', err.message);
       };

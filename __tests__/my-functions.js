@@ -1,15 +1,15 @@
 'use strict'
 
 module.exports = {
-  generateRandomData,
-  // convertIDToInt
+  userHome,
+  userSearch,
+  videoUpdate
 };
 
 const faker = require('faker');
 
-function generateRandomData(userContext, events, done) {
-  // generate data with Faker:
-  const userid = faker.random.number().toString();
+function userHome(userContext, events, done) {
+  const userid = faker.random.number().toString();  
   const videowatched = [faker.random.number(), faker.random.number(), faker.random.number()];
   const videosaved = [faker.random.number(), faker.random.number(), faker.random.number()];
   const region = faker.random.arrayElement([
@@ -20,16 +20,51 @@ function generateRandomData(userContext, events, done) {
     'North America',
     'Australia',
     'South America']);
-  // add variables to virtual user's context:
   userContext.vars.userid = userid;
   userContext.vars.videowatched = videowatched;
   userContext.vars.videosaved = videosaved;
   userContext.vars.region = region
-  // continue with executing the scenario:
   return done();
 };
 
-// function convertIDToInt(userContext, events, done) {
-//   userContext.json.userid = parseInt(userContext.json.userid)
-//   return done();
-// };
+function userSearch(userContext, events, done) {
+  const userid = faker.random.number().toString();
+  const region = faker.random.arrayElement([
+    'Africa',
+    'Antarctica',
+    'Asia',
+    'Europe',
+    'North America',
+    'Australia',
+    'South America']);
+    let titlelist = [
+      'Ewoks: The Battle for Endor',
+      'Hatchet III',
+      'Just Like Me (Igualita a Mi)',
+      'Three on a Match',
+      'Sione\'s Wedding (Samoan Wedding)',
+      'Messenger: The Story of Joan of Arc, The',
+      'Citizen Cohn',
+      'Rocks in my Pockets',
+      'The Widow From Chicago',
+      'Billy Jack Goes to Washington',
+      'BURN-E',
+      'Shanghai Knights',
+      'Franz Kafka\'s a Country Doctor',
+      'In Which We Serve',
+      'Quigley Down Under',
+      'Born to Be Wild',
+      'Firelight',
+      'Miami Rhapsody',
+      'Faithless',
+      'Hansel & Gretel Get Baked'
+    ];
+  const videotitle = faker.random.arrayElement(titlelist);  
+  userContext.vars.userid = userid;
+  userContext.vars.region = region;
+  userContext.vars.search = videotitle;
+  return done();
+}
+
+function videoUpdate(userContext, events, done) {
+}

@@ -2,7 +2,7 @@ const faker = require('faker');
 const fs = require('fs');
 
 let lies = fs.createWriteStream('videosbytitle.csv');
-for (var i = 1; i <= 1000000; i++) {
+for (var i = 1; i <= 5000000; i++) {
   let titlelist = [
     'Ewoks: The Battle for Endor',
     'Hatchet III',

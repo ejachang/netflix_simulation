@@ -2,41 +2,26 @@ config:
   target: 'http://localhost:8886'
   phases:
     - duration: 60
-      arrivalRate: 50
+      arrivalRate: 10
   processor: "./my-functions.js"
 
 scenarios:
-  - name: "get user list info based on User Service"
+  - name: "post a user"
     flow:
-      - loop:
-        - function: "generateRandomData"
-        - post:
-            url: "/api/login"
-            count: 1
-            json:
-              userid: "{{ userid }}"
-              videowatched: "{{ videowatched }}"
-              videosaved: "{{ videosaved }}"
-              region: "{{ region }}" 
+      - function: "userHome"
+      - post:
+          url: "/api/login"
+          json:
+            userid: "{{ userid }}"
+            videowatched: "{{ videowatched }}"
+            videosaved: "{{ videosaved }}"
+            region: "{{ region }}" 
       # - log: "Sent a request to /api/login with {{ userid }}, {{ videowatched }}, {{ videosaved }}, {{ region }}"
-
-
-      # ***********************************************************      
-scenarios:
-  - name: "post a user into the dbase"
+  - name: "make a search"
     flow:
-      - loop:
-        - function: "generateRandomData"
-        - post:
-            url: "/api/login"
-            count: 1
-            json:
-              userid: "{{ userid }}"
-              videowatched: "{{ videowatched }}"
-              videosaved: "{{ videosaved }}"
-              region: "{{ region }}" 
-    #  - log: "Sent a request to /api/login with {{ userid }}, {{ videowatched }}, {{ videosaved }}, {{ region }}"
+      - function: "userSearch"
+      - post:
+          url: "/browse/{{ userid }}/{{ region }}/{{ search }}"
+      - log: "Sent a request to browse with {{ userid }}, {{ region }}, {{ search }}"
 
 
-
-    

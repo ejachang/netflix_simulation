@@ -9,6 +9,7 @@ config:
 scenarios:
   - name: "post a user"
     flow:
+      - log: "Sent a request to /api/login with {{ userid }}, {{ videowatched }}, {{ videosaved }}, {{ region }}"
       - loop:
         - function: "generateRandomData"
         - post:
@@ -19,4 +20,4 @@ scenarios:
               videowatched: "{{ videowatched }}"
               videosaved: "{{ videosaved }}"
               region: "{{ region }}" 
-      # - log: "Sent a request to /api/login with {{ userid }}, {{ videowatched }}, {{ videosaved }}, {{ region }}"
+    
