@@ -45,9 +45,6 @@ module.exports = {
         console.log('userHome error handler:', err.message);
       };
     },
-    requestVideos: (ctx) => {
-      
-    },
     //search video titles
     searchVideo: async (ctx, next) => {
       try {
@@ -56,27 +53,41 @@ module.exports = {
         let userid = ctx.params.userid;
         let search = ctx.params.search;
         let found = await models.get.searchVideo(region, search);
-
+        let toSend = {
+          userid: ctx.params.userid,
+          region: ctx.params.region,
+          search: ctx.params.search,
+          time: time
+        }
         if (ctx.status === 404) {
-          //TODO: TEST THIS
-          let toSend = {
-            userid: ctx.params.userid,
-            region: ctx.params.region,
-            search: ctx.params.search,
-            time: time
-          }
+          models.post.searchInfo(time, userid, region, search); 
           router.post('/searchedInfo', (ctx2) => {
             try {
-              ctx2.body = toSend;
-              console.log('help', ctx2)
+              ctx2.body = toSend;  
+              ctx2.status = 200;
             } catch (err) {
-              console.log('Posting Search error handler', err.message);
+              console.log('post search err error handler:', err.message);
             }
           })
-          models.post.searchInfo(time, userid, region, search); 
-        }   
-        // router.post('/searchedInfo', helpers.postToSearch(ctx, time));
 
+          router.get('/requestVideo', (ctx4) => {
+            try {
+              ctx4.body = search;
+              ctx4.status = 200;
+            } catch (err) {
+              console.log('request video error handler:', err.message);
+            }
+          })
+        }   
+
+        router.post('/searchedInfo', (ctx3) => {
+          try {
+            ctx3.body = toSend;  
+            ctx3.status = 200;
+          } catch (err) {
+            console.log('post search error handler:', err.message);
+          }
+        });
 
         ctx.body = found.rows[0].videotitle
         //add to queue 
@@ -144,14 +155,6 @@ module.exports = {
         console.log('updateVideo error handler:', err.message);
       }
     },
-    // searchedInfo: (ctx, test) => {
-    //   console.log('searched info', ctx)
-    //   console.log('test searched info', test)
-    //   ctx.body.userid = ctx.params.userid;
-    //   ctx.body.region = ctx.params.region;
-    //   ctx.body.search = ctx.params.search;
-    //   ctx.body.time = time;
-    // }
   },
   delete: {
     deleteVideos: async (ctx) => {
