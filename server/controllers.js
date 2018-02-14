@@ -2,9 +2,11 @@ const db = require('../database/database-index.js');
 const helpers = require('./helpers.js');
 const assert = require('assert');
 const models = require('./models.js');
-const Router = require('koa-router')
-const router = new Router()
-
+const Koa = require('koa');
+const app = new Koa();
+const Router = require('koa-router');
+const router = new Router();
+const failure = new Router();
 // const { fork } = require('child_process');
 // const forked = fork('./server/workers.js');
 
@@ -43,6 +45,9 @@ module.exports = {
         console.log('userHome error handler:', err.message);
       };
     },
+    requestVideos: (ctx) => {
+      
+    },
     //search video titles
     searchVideo: async (ctx, next) => {
       try {
@@ -54,41 +59,30 @@ module.exports = {
 
         if (ctx.status === 404) {
           //TODO: TEST THIS
-          router.get('/requestSearch', (ctx) => {
-            ctx.body = ctx.params;
-          });
-          router.post('/searchedInfo', (ctx) => {
-            ctx.body.userid = ctx.params.userid;
-            ctx.body.region = ctx.params.region;
-            ctx.body.search = ctx.params.serach;
-            ctx.body.time = time;
-          });
+          let toSend = {
+            userid: ctx.params.userid,
+            region: ctx.params.region,
+            search: ctx.params.search,
+            time: time
+          }
+          router.post('/searchedInfo', (ctx2) => {
+            try {
+              ctx2.body = toSend;
+              console.log('help', ctx2)
+            } catch (err) {
+              console.log('Posting Search error handler', err.message);
+            }
+          })
+          models.post.searchInfo(time, userid, region, search); 
         }   
         // router.post('/searchedInfo', helpers.postToSearch(ctx, time));
-        
-        router.post('/searchedInfo', (ctx) => {
-          ctx.body.userid = ctx.params.userid;
-          ctx.body.region = ctx.params.region;
-          ctx.body.search = ctx.params.serach;
-          ctx.body.time = time;
-        });
+
 
         ctx.body = found.rows[0].videotitle
         //add to queue 
         //add background worker that sends posts to search records tables
         models.post.searchInfo(time, userid, region, search); 
       } catch (err) {
-        //TODO: TEST THIS
-        let time = JSON.stringify(helpers.getDate()).toString();
-        let region = ctx.params.region;
-        let userid = ctx.params.userid;
-        let search = ctx.params.search;
-        router.post('/searchedInfo', (ctx) => {
-          ctx.body.userid = userid;
-          ctx.body.region = region;
-          ctx.body.search = search;
-          ctx.body.time = time;
-        });
         ctx.body = "Video currently not available. Please check back later"
         console.log('searchVideo error handler:', err.message);
       };
@@ -150,6 +144,14 @@ module.exports = {
         console.log('updateVideo error handler:', err.message);
       }
     },
+    // searchedInfo: (ctx, test) => {
+    //   console.log('searched info', ctx)
+    //   console.log('test searched info', test)
+    //   ctx.body.userid = ctx.params.userid;
+    //   ctx.body.region = ctx.params.region;
+    //   ctx.body.search = ctx.params.search;
+    //   ctx.body.time = time;
+    // }
   },
   delete: {
     deleteVideos: async (ctx) => {

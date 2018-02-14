@@ -10,7 +10,7 @@ app.use(bodyParser())
 
 router
   .all('/', async (ctx) => {
-    ctx.body = "Welcome to the Netflix Clone"
+    ctx.body = "Welcome to the Netflix Simulation"
   })
 
   //  USER:
@@ -20,12 +20,11 @@ router
   // .post('http://localhost:8080/api/login', controllers.post.storeUser)
 
   //this is for the cache
-  //based on userid, get watch/saved list; based on region, get the userid
   .get('/userHome/:userid/', controllers.get.userHome)
 
   //SEARCH
-  //get and return searched videos in the dbase
-  .get('/browse/:userid/:region/:search', controllers.get.searchVideo)
+  .all('/browse/:userid/:region/:search', controllers.get.searchVideo)
+  // .post('/searchedInfo', controllers.post.searchedInfo)
   //TODO: have service worker post in the background
   //TODO: gets
   // .get('/browse/:userid/:region/:genre', controllers.get.searchVideoGenre)
@@ -34,7 +33,8 @@ router
 
   //VIDEOLISTS
   //request and save searched videos to VideoLists
-  .post('/requestVideos',controllers.post.updateVideos)
+  .get('/requestVideos',controllers.get.requestVideos)
+  .post('/postRequestedVideos',controllers.post.updateVideos)
   .post('/updateVideos', controllers.post.updateVideos)
   .delete('/removeVideos', controllers.delete.deleteVideos)
   
