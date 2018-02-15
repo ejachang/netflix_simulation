@@ -7,6 +7,9 @@ const app = new Koa();
 const Router = require('koa-router');
 const router = new Router();
 const failure = new Router();
+var AWS = require('aws-sdk');
+AWS.config.update({region: 'us-west-2'});
+// var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
 // const { fork } = require('child_process');
 // const forked = fork('./server/workers.js');
 
@@ -49,45 +52,48 @@ module.exports = {
     searchVideo: async (ctx, next) => {
       try {
         let time = JSON.stringify(helpers.getDate()).toString();
-        let region = ctx.params.region;
+        let region_key = ctx.params.region;
         let userid = ctx.params.userid;
         let search = ctx.params.search;
+        let region = region_key;
+        region_key === "North America" ? region = "namerica" : null
+        region_key === "South America" ? region = "samerica" : null;
         let found = await models.get.searchVideo(region, search);
         let toSend = {
-          userid: ctx.params.userid,
-          region: ctx.params.region,
-          search: ctx.params.search,
-          time: time
+          _userid: ctx.params.userid,
+          _region: ctx.params.region,
+          _search: ctx.params.search,
+          _time: time
         }
         if (ctx.status === 404) {
-          models.post.searchInfo(time, userid, region, search); 
-          router.post('/searchedInfo', (ctx2) => {
-            try {
-              ctx2.body = toSend;  
-              ctx2.status = 200;
-            } catch (err) {
-              console.log('post search err error handler:', err.message);
-            }
-          })
+          // models.post.searchInfo(time, userid, region, search); 
+          // router.post('/searchedInfo', (ctx2) => {
+          //   try {
+          //     ctx2.body = toSend;  
+          //     ctx2.status = 200;
+          //   } catch (err) {
+          //     console.log('post search err error handler:', err.message);
+          //   }
+          // })
 
-          router.get('/requestVideo', (ctx4) => {
-            try {
-              ctx4.body = search;
-              ctx4.status = 200;
-            } catch (err) {
-              console.log('request video error handler:', err.message);
-            }
-          })
+          // router.get('/requestVideo', (ctx4) => {
+          //   try {
+          //     ctx4.body = search;
+          //     ctx4.status = 200;
+          //   } catch (err) {
+          //     console.log('request video error handler:', err.message);
+          //   }
+          // })
         }   
 
-        router.post('/searchedInfo', (ctx3) => {
-          try {
-            ctx3.body = toSend;  
-            ctx3.status = 200;
-          } catch (err) {
-            console.log('post search error handler:', err.message);
-          }
-        });
+        // router.post('/searchedInfo', (ctx3) => {
+        //   try {
+        //     ctx3.body = toSend;  
+        //     ctx3.status = 200;
+        //   } catch (err) {
+        //     console.log('post search error handler:', err.message);
+        //   }
+        // });
 
         ctx.body = found.rows[0].videotitle
         //add to queue 
@@ -95,6 +101,7 @@ module.exports = {
         models.post.searchInfo(time, userid, region, search); 
       } catch (err) {
         ctx.body = "Video currently not available. Please check back later"
+        // console.log('region', ctx)
         console.log('searchVideo error handler:', err.message);
       };
     },
@@ -107,10 +114,10 @@ module.exports = {
       try {
         let info = ctx.request.body;
         // console.log('info', info)
-        let userid = (info.userid);
+        let userid = JSON.parse(info.userid);
         let region_key = info.region;
-        let watched = (info.videowatched);
-        let saved = (info.videosaved);
+        let watched = JSON.parse(info.videowatched);
+        let saved = JSON.parse(info.videosaved);
         let region = region_key;
         region_key === "North America" ? region = "namerica" : null
         region_key === "South America" ? region = "samerica" : null;
@@ -126,6 +133,7 @@ module.exports = {
         //TODO: to add to queue:
         helpers.postUserInfoToDB(userid, list[0], list[1], list[2]);
       } catch (err) {
+        console.log(region);
         console.log('storeUser error handler:', err.message);
       };
     },

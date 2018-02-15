@@ -2,26 +2,26 @@ config:
   target: 'http://localhost:8886'
   phases:
     - duration: 60
-      arrivalRate: 10
+      arrivalRate: 250
   processor: "./my-functions.js"
 
 scenarios:
-  - name: "post a user"
-    flow:
-      - function: "userHome"
-      - post:
-          url: "/api/login"
-          json:
-            userid: "{{ userid }}"
-            videowatched: "{{ videowatched }}"
-            videosaved: "{{ videosaved }}"
-            region: "{{ region }}" 
+  # - name: "post a user"
+  #   flow:
+  #     - function: "userHome"
+  #     - post:
+  #         url: "/api/login"
+  #         json:
+  #           userid: "{{ userid }}"
+  #           videowatched: "{{ videowatched }}"
+  #           videosaved: "{{ videosaved }}"
+  #           region: "{{ region }}" 
       # - log: "Sent a request to /api/login with {{ userid }}, {{ videowatched }}, {{ videosaved }}, {{ region }}"
   - name: "make a search"
     flow:
-      - function: "userSearch"
-      - post:
-          url: "/browse/{{ userid }}/{{ region }}/{{ search }}"
-      - log: "Sent a request to browse with {{ userid }}, {{ region }}, {{ search }}"
-
-
+      - loop:
+          - function: "userSearch"
+          - get:
+              url: "/browse/{{ userid }}/{{ region }}/{{ search }}"
+        count: 2
+      # - log: "Sent a request to browse with {{ userid }}, {{ region }}, {{ search }}"
