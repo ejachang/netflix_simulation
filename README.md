@@ -1,33 +1,44 @@
 # Project Name
 
-The project description
+Netflix Simulation
 
-## Roadmap
+<!-- ## Roadmap -->
 
-View the project roadmap [here](LINK_TO_DOC)
+<!-- View the project roadmap [here](LINK_TO_DOC) -->
 
-## Contributing
+<!-- ## Contributing -->
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+<!-- See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines. -->
 
-# Table of Contents
+<!-- # Table of Contents
 
 1. [Usage](#Usage)
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
+    1. [Tasks](#tasks) -->
 
 ## Usage
+Search microservice to see if a video is available in the library
+<!-- > Some usage instructions -->
 
-> Some usage instructions
+## Technlogies
+Backend
+- Node
+- Koa
 
-## Requirements
+Database
+- Cassandra
 
-- Node 6.9.x
-- Redis 3.2.x
-- Postgresql 9.6.x
-- etc
+Testing
+- Artillery
+- NewRelic
+
+Other
+- Amazon SQS
+- FakerJS
+
+
 
 ## Other Information
 
