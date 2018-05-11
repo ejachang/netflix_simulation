@@ -6,12 +6,14 @@ AWS.config.loadFromPath('/Users/ajkchang/Documents/School/2018/HR/hrsf86-thesis/
 AWS.config.update({region: 'us-west-2'});
 var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
 
-var params = {};
+var params = {
+  QueueUrl: 'https://sqs.us-west-2.amazonaws.com/767328498291/sqs_worker'
+};
 
-sqs.listQueues(params, function(err, data) {
+sqs.deleteQueue(params, function(err, data) {
   if (err) {
     console.log("Error", err);
   } else {
-    console.log("Success", data.QueueUrls);
+    console.log("Success", data);
   }
 });

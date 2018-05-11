@@ -6,12 +6,11 @@ const Koa = require('koa');
 const app = new Koa();
 const Router = require('koa-router');
 const router = new Router();
-const failure = new Router();
+
 var AWS = require('aws-sdk');
+AWS.config.loadFromPath('/Users/ajkchang/Documents/School/2018/HR/hrsf86-thesis/server/config.json');
 AWS.config.update({region: 'us-west-2'});
-// var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
-// const { fork } = require('child_process');
-// const forked = fork('./server/workers.js');
+var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
 
 db.client.connect(function (err) {
     assert.ifError(err);
@@ -65,42 +64,36 @@ module.exports = {
           _search: ctx.params.search,
           _time: time
         }
-        if (ctx.status === 404) {
-          // models.post.searchInfo(time, userid, region, search); 
-          // router.post('/searchedInfo', (ctx2) => {
-          //   try {
-          //     ctx2.body = toSend;  
-          //     ctx2.status = 200;
-          //   } catch (err) {
-          //     console.log('post search err error handler:', err.message);
-          //   }
-          // })
 
-          // router.get('/requestVideo', (ctx4) => {
-          //   try {
-          //     ctx4.body = search;
-          //     ctx4.status = 200;
-          //   } catch (err) {
-          //     console.log('request video error handler:', err.message);
-          //   }
-          // })
-        }   
+        var msg = { payload: toSend };
 
-        // router.post('/searchedInfo', (ctx3) => {
-        //   try {
-        //     ctx3.body = toSend;  
-        //     ctx3.status = 200;
-        //   } catch (err) {
-        //     console.log('post search error handler:', err.message);
-        //   }
-        // });
+        var sqsParams = {
+          MessageBody: JSON.stringify(msg),
+          QueueUrl: 'https://sqs.us-west-2.amazonaws.com/767328498291/library_sqs_worker'
+        }
+        
+        sqs.sendMessage(sqsParams, function(err, data) {
+          if (err) {
+            console.log('ERR', err);
+          }
+          // console.log('data', data);
+        });
 
         ctx.body = found.rows[0].videotitle
-        //add to queue 
-        //add background worker that sends posts to search records tables
-        models.post.searchInfo(time, userid, region, search); 
+        
       } catch (err) {
         ctx.body = "Video currently not available. Please check back later"
+        var sqsParams = {
+          MessageBody: JSON.stringify(msg),
+          QueueUrl: 'https://sqs.us-west-2.amazonaws.com/767328498291/search_sqs_worker'
+        }
+        
+        sqs.sendMessage(sqsParams, function(err, data) {
+          if (err) {
+            console.log('ERR', err);
+          }
+          // console.log('data2', data);
+        });
         // console.log('region', ctx)
         console.log('searchVideo error handler:', err.message);
       };
